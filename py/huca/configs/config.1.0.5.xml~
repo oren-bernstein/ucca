@@ -1,0 +1,210 @@
+<?xml version="1.0"?>
+<scheme name="basic2">
+  <!-- Changes made after the annotator training -->
+  <category>
+    <key>h</key>
+    <code>PARALLEL</code>
+    <abbr>H</abbr>
+    <name>Parallel Scene</name>
+    <caption>parallel scene &lt;u&gt;H&lt;/u&gt;</caption>
+    <linkable>true</linkable>
+    <title>a scene which stands in regular linkage relation to another scene or autonomous</title>
+  </category>
+
+  <category>
+    <code>LINKER</code>
+    <key>l</key>
+    <abbr>L</abbr>
+    <name>Linker</name>
+    <caption>&lt;u&gt;L&lt;/u&gt;inker</caption>
+    <linkable>false</linkable>
+    <title>a relation between two or more scenes; if one of the scenes is unspecified, it may apply to a single scene</title>
+  </category>
+
+  <category>
+    <key>g</key>
+    <code>GROUND</code>
+    <abbr>G</abbr>
+    <name>Ground</name>
+    <caption>&lt;u&gt;G&lt;/u&gt;round</caption>
+    <linkable>false</linkable>
+    <title>a relation between the scene it is situated in and the ground (i.e., the speech event; either the speaker, the hearer or the general context in which the text was uttered/written/conceived)</title>
+    <space>true</space> <!-- adds space after this category-->
+  </category>
+
+  <category>
+    <key>a</key>
+    <code>PARTICIPANT</code>
+    <abbr>A</abbr>
+    <name>Participant</name>
+    <caption>p&lt;u&gt;A&lt;/u&gt;rticipant</caption>
+    <linkable>false</linkable>
+    <title>participant in a scene (including location)</title>
+  </category>
+
+  <category>
+    <key>s</key>
+    <code>STATE</code>
+    <abbr>S</abbr>
+    <name>State</name>
+    <caption>&lt;u&gt;S&lt;/u&gt;tate</caption>
+    <linkable>false</linkable>
+    <title>main relation in a static scene with its auxilliaries, modals and secondary verbs</title>
+  </category>
+
+  <category>
+    <key>p</key>
+    <code>PROCESS</code>
+    <abbr>P</abbr>
+    <name>Process</name>
+    <caption>&lt;u&gt;P&lt;/u&gt;rocess</caption>
+    <linkable>false</linkable>
+    <title>main relation in a dynamic scene (a scene that evolves in time). includes all its auxilliaries, modals and secondary verbs</title>
+  </category>
+
+  <category>
+    <key>d</key>
+    <code>ADVERBIAL</code>
+    <abbr>D</abbr>
+    <caption>a&lt;u&gt;D&lt;/u&gt;verbial</caption>
+    <name>aDverbial</name>
+    <linkable>false</linkable>
+    <title>adds more information about the scene; not a participant, but a relation</title>
+    <space>true</space> <!-- adds space after this category-->
+  </category>
+
+  <category>
+    <key>c</key>
+    <code>CENTER</code>
+    <abbr>C</abbr>
+    <name>Center</name>
+    <caption>&lt;u&gt;C&lt;/u&gt;enter</caption>
+    <linkable>false</linkable>
+    <title>an argument of a relation that does not evoke a scene. The relation is E, R or N.</title>
+  </category>
+
+  <category>
+    <key>e</key>
+    <code>ELABORATOR</code>
+    <abbr>E</abbr>
+    <name>Elaborator</name>
+    <caption>&lt;u&gt;E&lt;/u&gt;laborator</caption>
+    <linkable>false</linkable>
+    <title>adds more information or describes a property to one single entity</title>
+  </category>
+
+  <category>
+    <key>n</key>
+    <code>CONNECTOR</code>
+    <abbr>N</abbr>
+    <name>Connector</name>
+    <caption>co&lt;u&gt;N&lt;/u&gt;nector</caption>
+    <linkable>false</linkable>
+    <title>relate two or more entities in a way that highlights the fact that they have a similar feature or type</title>
+  </category>
+
+  <!--
+  <category>
+    <key>r</key>
+    <code>RELATOR</code>
+    <abbr>R</abbr>
+    <caption>&lt;u&gt;R&lt;/u&gt;elator</caption>
+    <name>Relator</name>
+    <linkable>false</linkable>
+    <title>relates one or more entities without evoking a new scene. usually a preposition</title>
+  </category>
+  -->
+
+  <category>
+    <key>o</key>
+    <code>CONCRETE</code>
+    <abbr>O</abbr>
+    <catption>c&lt;u&gt;O&lt;/u&gt;ncrete</caption>
+    <name>CONCRETE</name>
+    <linkable>false</linkable>
+    <title></title>
+  </category>
+  
+  <category>
+    <key>b</key>
+    <code>ABSTRACT</code>
+    <abbr>B</abbr>
+    <caption>a&lt;u&gt;B&lt;/u&gt;stract</caption>
+    <name>ABSTRACT</name>
+    <linkable>false</linkable>
+    <title></title>
+  </category>
+
+  <category>
+    <key>g</key>
+    <code>AGENT</code>
+    <abbr>G</abbr>
+    <caption>a&lt;u&gt;G&lt;/u&gt;ent</caption>
+    <name>AGENT</name>
+    <linkable>false</linkable>
+    <title></title>
+  </category>
+  
+  <category>
+    <key>i</key>
+    <code>IDENTITY</code>
+    <abbr>B</abbr>
+    <caption>&lt;u&gt;I&lt;/u&gt;dentity</caption>
+    <name>IDENTITY</name>
+    <linkable>false</linkable>
+    <title></title>
+  </category>
+
+  <category>
+    <key>n</key>
+    <code>NEGATION</code>
+    <abbr>N</abbr>
+    <caption>&lt;u&gt;N&lt;/u&gt;egation</caption>
+    <name>NEGATION</name>
+    <linkable>false</linkable>
+    <title></title>
+  </category>
+
+  <category>
+    <key>i</key>
+    <code>IDENTITY</code>
+    <abbr>I</abbr>
+    <caption>&lt;u&gt;I&lt;/u&gt;dentity</caption>
+    <name>IDENTITY</name>
+    <linkable>false</linkable>
+    <title></title>
+  </category>
+
+  <category>
+    <key>q</key>
+    <code>QUANTITY</code>
+    <abbr>Q</abbr>
+    <caption>&lt;u&gt;Q&lt;/u&gt;uantity</caption>
+    <name>QUANTITY</name>
+    <linkable>false</linkable>
+    <title></title>
+  </category>
+  
+  <category>
+    <key>i</key>
+    <code>CAUSATIVE</code>
+    <abbr>V</abbr>
+    <caption>causati&lt;u&gt;V&lt;/u&gt;e</caption>
+    <name>CAUSATIVE</name>
+    <linkable>false</linkable>
+    <title></title>
+  </category>
+  
+  <category>
+    <key>r</key>
+    <code>REFREC</code>
+    <abbr>R</abbr>
+    <caption>&lt;u&gt;R&lt;/u&gt;eflexive/Reciprocal</caption>
+    <name>REFREC</name>
+    <linkable>false</linkable>
+    <title></title>
+  </category>
+
+  
+
+</scheme>

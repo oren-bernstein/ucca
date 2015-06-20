@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<scheme name="basic2">
+  <!-- Changes made after the first pilot -->
+  <category>
+    <key>u</key>
+    <code>LINKEDU</code>
+    <abbr>LU</abbr>
+    <name>Linked U</name>
+    <caption>linked &lt;u&gt;U&lt;/u&gt;nit</caption>
+    <linkable>true</linkable>
+    <title>one or more scenes linked by a linker or autonomous</title>
+  </category>
+
+  <category>
+    <code>LINKER</code>
+    <key>l</key>
+    <abbr>L</abbr>
+    <name>Linker</name>
+    <caption>&lt;u&gt;L&lt;/u&gt;inker</caption>
+    <linkable>false</linkable>
+    <title>a relation between two or more scenes. If one of the scenes is unspecified, it may apply to a single scene.</title>
+  </category>
+
+  <category>
+    <key>g</key>
+    <code>GROUND</code>
+    <abbr>G</abbr>
+    <name>Ground</name>
+    <caption>&lt;u&gt;G&lt;/u&gt;round</caption>
+    <linkable>false</linkable>
+    <title>a relation between the scene it is situated in and the ground (i.e., the speech event; either the speaker, the hearer or the general context in which the text was uttered/written/conceived)</title>
+    <space>true</space> <!-- adds space after this category-->
+  </category>
+
+  <category>
+    <key>a</key>
+    <code>PARTICIPANT</code>
+    <abbr>A</abbr>
+    <name>Participant</name>
+    <caption>p&lt;u&gt;A&lt;/u&gt;rticipant</caption>
+    <linkable>false</linkable>
+    <title>participant in a scene (including location)</title>
+  </category>
+
+  <category>
+    <key>s</key>
+    <code>STATE</code>
+    <abbr>S</abbr>
+    <name>State</name>
+    <caption>&lt;u&gt;S&lt;/u&gt;tate</caption>
+    <linkable>false</linkable>
+    <title>main relation in a static scene with its auxilliaries, modals and secondary verbs</title>
+  </category>
+
+  <category>
+    <key>p</key>
+    <code>PROCESS</code>
+    <abbr>P</abbr>
+    <name>Process</name>
+    <caption>&lt;u&gt;P&lt;/u&gt;rocess</caption>
+    <linkable>false</linkable>
+    <title>main relation in a dynamic scene (a scene that evolves in time). includes all its auxilliaries, modals and secondary verbs</title>
+  </category>
+
+  <category>
+    <key>d</key>
+    <code>ADVERBIAL</code>
+    <abbr>D</abbr>
+    <caption>a&lt;u&gt;D&lt;/u&gt;verbial</caption>
+    <name>aDverbial</name>
+    <linkable>false</linkable>
+    <title>adds more information about the scene; not a participant, but a relation</title>
+    <space>true</space> <!-- adds space after this category-->
+  </category>
+
+  <category>
+    <key>c</key>
+    <code>CENTER</code>
+    <abbr>C</abbr>
+    <name>Center</name>
+    <caption>&lt;u&gt;C&lt;/u&gt;enter</caption>
+    <linkable>false</linkable>
+    <title>an entity comprising a complex unit (the relations in the complex units are either E or N)</title>
+  </category>
+
+  <category>
+    <key>e</key>
+    <code>ELABORATOR</code>
+    <abbr>E</abbr>
+    <name>Elaborator</name>
+    <caption>&lt;u&gt;E&lt;/u&gt;laborator</caption>
+    <linkable>false</linkable>
+    <title>a relation applied to a single entity (C) to form a complex unit</title>
+  </category>
+
+  <category>
+    <key>n</key>
+    <code>CONNECTOR</code>
+    <abbr>N</abbr>
+    <name>Connector</name>
+    <caption>co&lt;u&gt;N&lt;/u&gt;nector</caption>
+    <linkable>false</linkable>
+    <title>a relation applied to two or more entities (Cs) to form a complex unit</title>
+  </category>
+
+  <category>
+    <key>r</key>
+    <code>ROLEMARKER</code>
+    <abbr>R</abbr>
+    <caption>&lt;u&gt;R&lt;/u&gt;ole Marker</caption>
+    <name>Role Marker</name>
+    <linkable>false</linkable>
+    <title>Determines the role of a C in its super-ordinate relation</title>
+  </category>
+
+</scheme>

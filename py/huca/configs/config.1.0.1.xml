@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<scheme name="basic">
+  
+  <category>
+    <numkey>1</numkey>
+    <key>a</key>
+    <code>ARGUMENT</code>
+    <abbr>A</abbr>
+    <name>Argument</name>
+    <linkable>true</linkable>
+    <title>a primary participant in the scene</title>
+  </category>
+  <category>
+    <numkey>2</numkey>
+    <key>v</key>
+    <code>VERBIAL</code>
+    <abbr>V</abbr>
+    <name>Verbial</name>
+    <linkable>true</linkable>
+    <title>a primary relation in a scene with its auxilliaries, modals and secondary verbs</title>
+  </category>
+  <category>
+    <numkey>3</numkey>
+    <key>e</key>
+    <code>ELABORATOR</code>
+    <abbr>E</abbr>
+    <name>Elab.</name>
+    <linkable>true</linkable>
+    <title>adds more information either to a clause or to a Center</title>
+  </category>
+  <category>
+    <numkey>4</numkey>
+    <key>c</key>
+    <code>CENTER</code>
+    <abbr>C</abbr>
+    <name>Center</name>
+    <linkable>true</linkable>
+    <title>referring to the same entity as its parent</title>
+  </category>
+  <category>
+    <numkey>5</numkey>
+    <key>u</key>
+    <code>LINKEDU</code>
+    <abbr>LU</abbr>
+    <name>Linked U</name>
+    <linkable>true</linkable>
+    <title>a participant in clause linkage or some other participant in a binary relation</title>
+  </category>
+  <category>
+    <numkey>6</numkey>
+    <code>LINKER</code>
+    <key>l</key>
+    <abbr>L</abbr>
+    <name>Linker</name>
+    <linkable>false</linkable>
+    <title>links consecutive units by either clause linkage or some other binary relation</title>
+  </category>
+  <category>
+    <numkey>7</numkey>
+    <key>g</key>
+    <code>GROUND</code>
+    <abbr>G</abbr>
+    <name>Ground</name>
+    <linkable>true</linkable>
+    <title>a scene construed as the point from which another scene is conceived</title>
+  </category>
+  <category>
+    <numkey>8</numkey>
+    <key>s</key>
+    <code>STAGE</code>
+    <abbr>S</abbr>
+    <name>Stage</name>
+    <linkable>true</linkable>
+    <title>a scene conceived by another scene</title>
+  </category>  
+
+</scheme>

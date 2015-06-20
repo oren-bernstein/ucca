@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<scheme name="basic2">
+  <!-- Added the distinction between elaborator and secondary relation -->
+  
+  <category>
+    <key>a</key>
+    <code>ARGUMENT</code>
+    <abbr>A</abbr>
+    <name>Argument</name>
+    <caption>&lt;u&gt;A&lt;/u&gt;rgument</caption>
+    <linkable>true</linkable>
+    <title>participant in a scene (including location)</title>
+  </category>
+
+  <category>
+    <key>v</key>
+    <code>VERBIAL</code>
+    <abbr>V</abbr>
+    <name>Verbial</name>
+    <caption>&lt;u&gt;V&lt;/u&gt;erbial</caption>
+    <linkable>true</linkable>
+    <title>main relation in a scene (state, action or movement) with its auxilliaries, modals and secondary verbs</title>
+  </category>
+
+  <category>
+    <key>d</key>
+    <code>ADVERBIAL</code>
+    <abbr>D</abbr>
+    <caption>a&lt;u&gt;D&lt;/u&gt;verbial</caption>
+    <name>aDverbial</name>
+    <linkable>true</linkable>
+    <title>adds more information about the scene; not a participant, but a relation</title>
+  </category>
+
+  <category>
+    <key>c</key>
+    <code>CENTER</code>
+    <abbr>C</abbr>
+    <name>Center</name>
+    <caption>&lt;u&gt;C&lt;/u&gt;enter</caption>
+    <linkable>true</linkable>
+    <title>an entity comprising a complex unit (the relations in the complex units are either E or L)</title>
+  </category>
+
+  <category>
+    <key>e</key>
+    <code>ELABORATOR</code>
+    <abbr>E</abbr>
+    <name>Elaborator</name>
+    <caption>&lt;u&gt;E&lt;/u&gt;laborator</caption>
+    <linkable>true</linkable>
+    <title>a unary relation applied to a C to form a complex unit</title>
+  </category>
+  
+  <category>
+    <key>u</key>
+    <code>LINKEDU</code>
+    <abbr>LU</abbr>
+    <name>Linked U</name>
+    <caption>linked &lt;u&gt;U&lt;/u&gt;nit</caption>
+    <linkable>true</linkable>
+    <title>one or more scenes linked by a linker or autonomous</title>
+  </category>
+
+  <category>
+    <code>LINKER</code>
+    <key>l</key>
+    <abbr>L</abbr>
+    <name>Linker</name>
+    <caption>&lt;u&gt;L&lt;/u&gt;inker</caption>
+    <linkable>false</linkable>
+    <title>a relation between one or more (but usually two) scenes.</title>
+  </category>
+
+  <category>
+    <key>g</key>
+    <code>GROUND</code>
+    <abbr>G</abbr>
+    <name>Ground</name>
+    <caption>&lt;u&gt;G&lt;/u&gt;round</caption>
+    <linkable>true</linkable>
+    <title>a scene describing the point from which another scene is conceived</title>
+  </category>
+
+  <category>
+    <key>s</key>
+    <code>STAGE</code>
+    <abbr>S</abbr>
+    <name>Stage</name>
+    <caption>&lt;u&gt;S&lt;/u&gt;tage</caption>
+    <linkable>true</linkable>
+    <title>a scene conceived by another scene</title>
+  </category>  
+
+</scheme>

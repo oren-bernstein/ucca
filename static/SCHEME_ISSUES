@@ -1,0 +1,58 @@
+Examples and Solved Problems:
+-----------------------------
+
+1. "[Th. he] [Proc. seemed] [Cl. [Ro. about to] [Proc. linger] [Oth. there]]"
+2. "John went to school, leaving his sick mother at home." - a coordination between clauses.
+3. "milions of homes", "little of the widespread devastation the authorities had feared", "half of the money", "none of these systems": the most straightforward option is that it is an omission.
+4. "[Th. X] [Proc. made] [Th. it] [Oth. clear] [Th. to Y] [Cl. that]" - separate arguments, although other options are as likely.
+5. quotes that indicate that it's not really true - punctuation and should therefore be disregarded.
+6. "that of X" - "that" is the head (a deictic noun)
+7. "it has become clear that" - a completement clause.
+8. what do we do when there is one preposition for a coordination? use it in the first, and a coordination linkage between them.
+9. "None of these systems is complete, none comprehends all human motives and capacities". What about the second "none"? like "half of"
+10. "what we've been discussing so far is..." - it is a clause. it is true that in English clauses can often be used as things, but that is not explicitly encoded.
+11.  "[see] [their taxes] used...": - "used..." should be regarded as a clause (in fact it is a be-omission - being used...)
+12. "... how their governments spend their money and tax their citizens" - I would annoatate it like this:
+  [Cl. [Ro. how] [Cl. [Th. governments] [Pr. spend] [Th. their money]] [Li. and] [Cl. [Pr. tax] [Th. their citizens]]. The second sentence will be added a remote argument "governments"
+13. - "not only ... but", "either ... or" are separate linkage markers that incidentally form a single constrution.
+14. What's the annotation of "to" in "to+infinitive" constructions? is it a relation marker? I would say so, especially since sometimes it is short for "in order to" which is obviously a relation marker (constitency consideration). 
+15. "according to John" - a thing.
+16. "does not have enough support to block" - it is a complex NP.
+17. "not only X but Y" should be regarded as a coordination, with "not only" and "but" used as "role markers".
+18. "The students of the class are John and Mary. Each ..."
+19. "From another, it can be seen as re-creating, [by private choice and automated licenses], the world of creativity before law had permeated to the finest, most atomic level of science and culture". This is not a paranthetical. Merely an adverbial, set in commas for clarity.
+
+
+
+
+Pre-Processing:
+---------------
+1. Removing references - too contextual.
+
+Post-Processing:
+----------------
+1. We need to determine the clause type - relative/complement/main and regular/copula/existential.
+2. All the words in a process, except those explicitly marked otherwise, should be treated as verbs (verify that in post-processing).
+3. There shouldn't be a difference in the annotation in copula/copula-like (such as "seem", "look" etc.) between including a prepositional phrase or a complement clause as part of the adjective or as not. For instance: "it is clear that ..." -- there is no difference between "[it] [is] [clear that ...]" and "[it] [is] [clear] [that]..." 
+4. "become" and "be" are copulas and should be marked as such.
+
+Open Problems:
+--------------
+1. if a punctuation is left outside of a unit, it should automatically be connected to the unit preceding it? At least in the case of quotation marks, yes.
+2. what about extrapositions? probably linkage.
+3. on what grounds do we diffrentiate between an adverbial clause and a complement clause? we said that the argument-adjunct distinction should generally not be encoded.
+4. "European and U.S. database markets" - is "European" an adjective? if so, is U.S. a noun? probably so...
+5. "It is, however, incomplete and all too often applied in sweeping ways without acknowledging that its basic assumptions may not hold in a particular case." - notice that probably both are adjectives, but the second can also be analyzed as a clause. But it's a very weird construction.
+
+General Guidelines:
+-------------------
+1. instruct annotators to finish reading the whole sentence before starting to annotate, or at least be certain that a place is indeed the boundary.
+2. Role marker relates the unit it is situated in (its parent) to the grandparent. Linkage marker relates the unit to other units to which it is connected.
+3. Hierarchy should reflect semantic hierarchy, such as complement clauses or posession, but it must always be demonstrated that the hierarchy also holds semantically. Clauses in that respect are not regular units, because they are merely an indication that some units are together in some sense.
+4. Attention: Note the difference between ING complement clauses and nominalizations (Dixon, p. 326).
+5. The argument-adjunct distinction should not be coded. If a clause is an adverbial, it should be annotated the same as if it were an argument.
+6. All role and linkage markers must be put within the unit they refer to. If it is not any of them in particular, attach them to the second.
+7. Relative clauses should add as a remote unit the thing which they elaborate.
+8. When we have a secondary verb and its clause, it is considered a complement clause.
+
+

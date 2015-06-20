@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+import psycopg2
+
+con = psycopg2.connect(host="localhost", database="work",user="oren",password="Password1")
+cur = con.cursor()
+cur.execute("SET search_path TO public")
+
+#cur.execute("DROP TABLE tasks")
+#cur.execute("DROP TABLE users")
+#cur.execute("DROP TABLE passages")
+#cur.execute("DROP TABLE xmls")
+#cur.execute("DROP TABLE unfit")
+#cur.execute("DROP TABLE projects")
+#cur.execute("DROP TABLE projectPassages")
+#cur.execute("DROP TABLE groups")
+#cur.execute("DROP TABLE autosave")
+#cur.execute("DROP TABLE reviewtasks")
+
+cur.execute("CREATE TABLE passages (id SERIAL PRIMARY KEY, passage TEXT NOT NULL, source TEXT, uid INTEGER, status INTEGER, displayed INTEGER, gid INTEGER, rid INTEGER)")
+cur.execute("CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT NOT NULL, password TEXT NOT NULL, email TEXT, fullname TEXT, affiliation TEXT, status INTEGER, permissions INTEGER, settings TEXT, displayed INTEGER)")
+cur.execute("CREATE TABLE xmls (id SERIAL PRIMARY KEY, reviewOf INTEGER, xml TEXT, paid INTEGER, prid INTEGER, uid INTEGER NOT NULL, comment TEXT, status INTEGER, ts timestamp)")
+cur.execute("CREATE TABLE autosave (id SERIAL PRIMARY KEY, xml TEXT, paid INTEGER, prid INTEGER, uid INTEGER NOT NULL, comment TEXT, status INTEGER, ts timestamp)")
+cur.execute("CREATE TABLE tasks (id SERIAL PRIMARY KEY, uid INTEGER, pid INTEGER, prid INTEGER, status INTEGER, displayed INTEGER)")
+cur.execute("CREATE TABLE reviewTasks (id SERIAL PRIMARY KEY, uid INTEGER, xid INTEGER, status INTEGER, displayed INTEGER)")
+cur.execute("CREATE TABLE unfit (id SERIAL PRIMARY KEY, uid INTEGER, paid INTEGER, prid INTEGER)")
+cur.execute("CREATE TABLE projects (id SERIAL PRIMARY KEY, name TEXT, version TEXT, configFile TEXT, displayed INTEGER)")
+cur.execute("CREATE TABLE projectPassages (id SERIAL PRIMARY KEY, prid INTEGER, paid INTEGER)")
+cur.execute("CREATE TABLE groups (id SERIAL PRIMARY KEY, name TEXT, status INTEGER)")
+
+cur.execute("INSERT INTO projects (id, name, version, configFile, displayed) VALUES (-1, 'Guest', '1.0.4','config.1.0.4.xml',1)")
+cur.execute("INSERT INTO projects (name, version, configFile, displayed) VALUES ('default', '1.0','config.1.0.2.xml',1)")
+cur.execute("INSERT INTO passages (passage, source, uid, status, displayed, gid, rid) VALUES ('Hey there!', 'unknown', 1, 1, 1, 1, -1)")
+cur.execute("INSERT INTO projectPassages (prid, paid) VALUES (1, 1)")
+cur.execute("INSERT INTO groups (name, status) VALUES ('demoPassages', 1)")
+cur.execute("INSERT INTO users (username, password, email, fullname, affiliation, status, permissions, settings, displayed) VALUES ('arir', 'rira', 'admin@oo.com', 'Ari R', 'HUJI', 1, 1,'small,small',1)")
+cur.execute("INSERT INTO users (username, password, email, fullname, affiliation, status, permissions, settings, displayed) VALUES ('admin', 'nimda', 'admin@oo.com', 'Admin', 'HUJI', 1, 1,'small,small',1)")
+cur.execute("INSERT INTO tasks (uid, pid, prid, status, displayed) VALUES (1, 1, 1, -1, 1)")
+con.commit()

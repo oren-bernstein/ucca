@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="annotStyle.css" />
+<link rel="icon" type="image/png" href="gif/UCCA.png">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/home.js"></script>
+<script type="text/javascript" src="js/dialogs.js"></script>
+
+<title>UCCA</title>
+</head>
+<body style="margin-top: 0px;">
+  <div id="bodyDiv">
+    <div id='topButtons' align='right' style="padding-top: 5px; padding-right: 5px; z-index: 200; position: relative; height: 40px;">
+      <a style="position: absolute; top: 2px; right: 40px; font-size: 12px; font-family: Times New Roman;" id="username"></a>
+      <a id="helpButton"> <img src="gif/help_button.gif" onclick="openDialog(1);" class="top-button"></a>
+    </div>
+
+    <img src="gif/type_writer2.png" style="position: fixed; right: 10px; bottom: 2px;"></div>
+    <div id='dialog'></div>
+    <div id='darken'></div>
+    <div style="position: absolute ; top: 0px; left: 20px;">
+      <div>
+	<img src="gif/logo5.gif"
+	     style="position: relative; margin-bottom: 0px; margin-top: 20px; z-index: 100">
+	<div style="margin-left: -0.5em; display: inline; font-family: type_writer_style; font-size: 32px; bottom: 27px; position: relative;">UCCA</div>
+        <div style="margin-left: 0.5em; display: inline; font-family: type_writer_style; font-size: 17px; bottom: 27px; position: relative;">Universal
+	  Conceptual Cognitive Annotation  <a style="font-family: Times New Roman; font-size: 10px;">&copy</a></div>
+      </div>
+    </div>
+    <div id="explanation" class="shadow1" style="border: 2px solid black; z-index: 100; position: relative; background: white; margin-top: 5%; width: 50%; padding: 5px; font-family: Times New Roman;">
+      <p>UCCA is a novel approach to grammatical representation.</p> 
+      <p>It was developed in the Computational Linguistics Lab of the Computer Science Department of the Hebrew University by <a href="http://www.cs.huji.ac.il/~omria01">Omri Abend</a> and <a href="http://www.cs.huji.ac.il/~arir">Ari Rappoport</a>. Tomer Eshet partnered in the development of the web application.</p>
+      <p>This site allows you to annotate text using UCCA's annotation scheme.</p>
+      <p>A small sample dataset is already available for download <a href="http://www.cs.huji.ac.il/~omria01/data/ucca_dataset.zip">here<a>.</p>
+    </div>
+
+    <div style="background: white; margin-top: 10px; position: relative; top: 40px; width: 60%; border: 2px solid black; z-index:100;" id="scroller" class="shadow1">
+      <ul id="links" style="list-style-type: square; font-family: Times New Roman"></ul>
+    </div>
+    <div>
+      <p id="errorPrinter" />
+    </div>
+</div>
+</div>
+</body>
+</html>

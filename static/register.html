@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="annotStyle.css" />
+    <link rel="icon" type="image/png" href="gif/UCCA.png">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/register.js"></script>
+
+    <title>UCCA</title>
+  </head>
+  <body style="margin: 0px;">
+    <div id="bodyDiv">
+      <table border="0" width="100%">
+	<tr>
+	  <td>
+          <div>
+	    <img src="gif/logo5.gif"
+	         style="position: relative; margin-bottom: 0px; margin-top: 20px; z-index: 100">
+	    <div style="margin-left: -0.5em; display: inline; font-family: type_writer_style; font-size: 32px; bottom: 27px; position: relative;">UCCA</div>
+            <div style="margin-left: 0.5em; display: inline; font-family: type_writer_style; font-size: 17px; bottom: 27px; position: relative;">Universal
+	      Conceptual Cognitive Annotation <a style="font-family: Times New Roman; font-size: 10px;">&copy</a></div>
+          </div>
+	    <a style="top: 10px; height: 40px; right: 10px; position: absolute;" href="/">
+              <img src="gif/home_button.gif" class="top-button">
+	    </a>
+	                                <!--<div
+	       style="top: 10px; right: 10px; display: block; position: absolute;">
+	      <a class="button top-button" href="/">Home</a>
+	                                </div>-->
+	  </td>
+
+	</tr>
+	<tr>
+	  <td valign="top" width="70%">
+	    <div id='textDiv' style="position: relative;">
+	      <form action="javascript:checkAndRegister();">
+		<table>
+		  <tr>
+		    <td>Username:</td>
+		    <td><input type="text" maxlength="15" name="user"></input>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>Password:</td>
+		    <td><input type="password" maxlength="15" name="pass"></input>
+		    </td>
+		  </tr>
+                  <tr>
+		    <td>Full Name:</td>
+		    <td><input type="text" maxlength="50" name="fullname"></input>
+		    </td>
+		  </tr>
+                  <tr>
+		    <td>Affiliation:</td>
+		    <td><input type="text" maxlength="50" name="affiliation"></input>
+		    </td>
+		  </tr>
+                  <tr>
+		    <td>e-mail:</td>
+		    <td><input type="text" maxlength="50" name="email"></input>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><input type="submit" name="submit" />
+		    </td>
+		  </tr>
+		</table>
+	      </form>
+	  </div></td>
+
+	</tr>
+	<tr>
+	  <td>
+	    <p id="errorPrinter" />
+	  </td>
+	</tr>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+
+syntax: regexp
+^\.settings/\.jsdtscope$
+syntax: regexp
+^\.settings/org\.eclipse\.wst\.jsdt\.ui\.superType\.container$
+syntax: regexp
+^\.settings/org\.eclipse\.wst\.jsdt\.ui\.superType\.name$
+syntax: regexp
+^py/huca/huca\.db$
+syntax: regexp
+^py/huca/data$
+syntax: regexp
+^py/huca/data$
+syntax: regexp
+^py/huca/data/container_file/2/26/2680dea5636d2d3cd8b6d2714a06cfe7\.cache$
+syntax: regexp
+^py/huca/data/container_file/2/26/2680dea5636d2d3cd8b6d2714a06cfe7\.cache$
+syntax: regexp
+^static/development-bundle$
+syntax: regexp
+^static/development-bundle$
+syntax: regexp
+^py/huca/data/container_file/2/26/2680dea5636d2d3cd8b6d2714a06cfe7\.cache$

@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<scheme name="basic2">
+  <!-- Changes made after the annotator training -->
+  <category>
+    <key>o</key>
+    <code>CONCRETE</code>
+    <abbr>O</abbr>
+    <name>Concrete Object</name>
+    <caption>Concrete &lt;u&gt;O&lt;/u&gt;bject</caption>
+    <linkable>true</linkable>
+    <title>concrete object</title>
+  </category>
+
+  <category>
+    <code>LINKER</code>
+    <key>l</key>
+    <abbr>L</abbr>
+    <name>Linker</name>
+    <caption>&lt;u&gt;L&lt;/u&gt;inker</caption>
+    <linkable>false</linkable>
+    <title>a relation between two or more scenes; if one of the scenes is unspecified, it may apply to a single scene</title>
+  </category>
+
+<!--
+  <category>
+    <key>g</key>
+    <code>GROUND</code>
+    <abbr>G</abbr>
+    <name>Ground</name>
+    <caption>&lt;u&gt;G&lt;/u&gt;round</caption>
+    <linkable>false</linkable>
+    <title>a relation between the scene it is situated in and the ground (i.e., the speech event; either the speaker, the hearer or the general context in which the text was uttered/written/conceived)</title>
+    <space>true</space>
+  </category>
+-->
+
+  <category>
+    <key>s</key>
+    <code>STATE</code>
+    <abbr>S</abbr>
+    <name>State</name>
+    <caption>&lt;u&gt;S&lt;/u&gt;tate</caption>
+    <linkable>false</linkable>
+    <title>main relation in a static scene with its auxilliaries, modals and secondary verbs</title>
+  </category>
+
+  <category>
+    <key>p</key>
+    <code>PROCESS</code>
+    <abbr>P</abbr>
+    <name>Process</name>
+    <caption>&lt;u&gt;P&lt;/u&gt;rocess</caption>
+    <linkable>false</linkable>
+    <title>main relation in a dynamic scene (a scene that evolves in time). includes all its auxilliaries, modals and secondary verbs</title>
+  </category>
+
+  <category>
+    <key>d</key>
+    <code>ADVERBIAL</code>
+    <abbr>D</abbr>
+    <caption>a&lt;u&gt;D&lt;/u&gt;verbial</caption>
+    <name>aDverbial</name>
+    <linkable>false</linkable>
+    <title>adds more information about the scene; not a participant, but a relation</title>
+    <space>true</space> <!-- adds space after this category-->
+  </category>
+
+  <category>
+    <key>n</key>
+    <code>CONNECTOR</code>
+    <abbr>N</abbr>
+    <name>Connector</name>
+    <caption>co&lt;u&gt;N&lt;/u&gt;nector</caption>
+    <linkable>false</linkable>
+    <title>relate two or more entities in a way that highlights the fact that they have a similar feature or type</title>
+  </category>
+
+  <category>
+    <key>r</key>
+    <code>ROLE</code>
+    <abbr>R</abbr>
+    <caption>&lt;u&gt;R&lt;/u&gt;ole</caption>
+    <name>Role Marker</name>
+    <linkable>false</linkable>
+    <title>Role marker</title>
+  </category>
+
+  <category>
+    <key>q</key>
+    <code>QUANTIFIER</code>
+    <abbr>Q</abbr>
+    <caption>&lt;u&gt;Q&lt;/u&gt;uantifier</caption>
+    <name>Quantifier</name>
+    <linkable>false</linkable>
+    <title>Quantification or enumeration</title>
+  </category>
+
+  <category>
+    <key>t</key>
+    <code>TIME</code>
+    <abbr>T</abbr>
+    <caption>&lt;u&gt;T&lt;/u&gt;ime</caption>
+    <name>Time</name>
+    <linkable>false</linkable>
+    <title>Temporal relation</title>
+  </category>
+
+  <category>
+    <key>c</key>
+    <code>CAUSATIVE</code>
+    <abbr>C</abbr>
+    <caption>&lt;u&gt;C&lt;/u&gt;ausative</caption>
+    <name>Causative</name>
+    <linkable>false</linkable>
+    <title>causative</title>
+  </category>
+
+  <category>
+    <key>m</key>
+    <code>Complete Scene</code>
+    <abbr>M</abbr>
+    <caption>&lt;u&gt;C&lt;/u&gt;omplete Scene</caption>
+    <name>Complete Scene</name>
+    <linkable>false</linkable>
+    <title>complete scene</title>
+  </category>
+
+
+</scheme>

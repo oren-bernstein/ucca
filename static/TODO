@@ -1,0 +1,107 @@
+Adaptations to Mozilla:
+=======================
+
+
+Tomer:
+======
+
+Done:
+
+
+To do:
+   * settings are not saved and loaded well: the problem is only with the lower buttons.
+   * one cannot copy-paste from the text area when pressing "shift+x" (display xml) in firefox. do you know what the problem is?
+   * change error messages when creating the passage.
+
+Things Omri did:
+
+
+Omri:
+=====
+
+To do:
+
+      * disallow assigning review tasks only to guests.
+      * change status in "/reviewTasks" to text (instead of 0/1).
+            
+   Bugs:
+      * problem with discontiguous units in passage 338, annotation from 19/9, 14:17.
+      * toggleFinished() of a discontiguous unit inside a discontiguous unit gives me trouble.
+      * check omria passage "for the past two years". there is a problem with using the "down" button.
+      * problem in unit 348 in passage 355 of admin.
+      * look at passage 347 for example. All I did was creating a+c as discontiguous unit, then b as another one. When I click on 'c', both a+c and b are selected. when a or b are clicked, the right units get selected. see if it's somehow a bug that lead to others..
+      
+   App:
+      * the ability to an annotator to mark a part of the passage as unanalyzable (like this automatically extracted parts).
+      * have a menu to look at remarks about the passages in one place.
+      * better error messages for the admin.
+      * when looking at someone else's passage, there should be an indication of it.
+      * keyboard shortcut for collapse without finishing.
+      * make sure that when there is a problem with "finish", the pointerUnit jumps to the violating unit.
+      * alt+e should jump to a unit also if it's open.
+      * del all sub-tree option.
+
+   Minor:
+      * shortcut for selecting all the text between two punctuation marks.
+      * Add 'home' and 'end' functions to browse the text.
+      * 'Function' and 'TBD' should not have the same color (grey).       
+      * In addition to 'finish', there should also be an option for 'return later' (though doesn't collapse do just that?).
+      * In the '/passages' mode, sometimes it shows half words. 
+      * F2 should be available not only in '/text'.
+      * slight bug with page down on the help menu.
+      * Clearer display of the ancestors of the unit in focus.
+      * Change the cursor to sandwatch until the 'save' operation retunrs.
+
+   Extras:
+      * Ari's idea with "tab".
+      * suggestions for user: how do we display them?
+          -- for instance: in an elaborator which is also a scene, we should give a warning if there is no omitted argument.
+      * have an option to have set as C in X, where C is a category and X is a unit.   
+      * allow scrolling when the page isn't full yet.
+      * It would have been nice if I could change the size of the text window.      
+      * minor bug: if you scroll down with the mouse in the passage box, when it reaches the bottom, it starts scrolling down the main window.
+      * have a separate scrollbar for the units.
+
+        
+Things Tomer did for you to review and delete from this list: 
+
+
+Future:
+=======
+
+   * we also need to make sure that external people can upload their texts, annotate them, and get them back.
+   * A+focus and E+focus categories?
+   * Implicit linkers? allow more than two arguments in a linkage?
+
+   Application:
+      * is there a good option of playing with the sub-units when in their parents unit (following Ari's comment)?   
+      * have an option to see where is the original instance of a remote unit. is this enough?
+      * have a short text explaining what the ruler is for.        
+      * have an option to delete all sub-units of a given unit, include the unit itself.      
+      * add a keyboard option for seeing linkage arguments.  
+      * make passage groups.      
+
+
+Possibilities:
+==============
+
+        * Write something to compare between alternative annotations.
+        * add a search option to the unit history (only if we make it unbounded).
+        * finished units should appear different in the passage window.
+          Perhaps it would suffice to have an option of defining a clause (or some other unit?) as missing an argument...
+        * add an option to add to the linkage its linkage-marker?? in that case, it will automatically be the first element 
+          in the second linked unit. in the same vain, add an option to add to the role marker, the entity it marks.
+        * add a redo and undo button.
+        ? how do we allow morphology? allow splitting units (maybe a window opens and you decide where to split)
+        * have an option to automatically add relative clause and the omitted argument in the interface.
+        ? where there is only one option, set the linkage automatically.
+        ? adding white space at the bottom, so not always to work at the bottom of the screen.
+        * find gifs for animations to make the user happy. 
+        * sounds:
+                * add chain clinging sound and chain breaking sound when assigning a link, or removing a link.
+                * add sounds for grouping a unit, ungrouping a unit and setting a category (probably a click is enough)
+                * should be controled by an option in the settings dialog.
+        * having an inheritence hierarchy of annotation schemes.
+        * have a read-only mode with worked out examples and explanations.
+
+

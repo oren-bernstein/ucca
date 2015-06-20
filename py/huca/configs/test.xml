@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<scheme name="basic2">
+  <!-- trying stuff -->
+  <category>
+    <key>h</key>
+    <code>HAHAHA LOL</code>
+    <abbr>L</abbr>
+    <name>OMG WTF</name>
+    <caption>huh what's that</caption>
+    <linkable>true</linkable>
+    <title>somethign something, whatever</title>
+  </category>
+
+</scheme>

@@ -1,0 +1,62 @@
+Webpages:
+========
+
+/users:
+-- in "tasks": add percentage per project
+
+/projects:
+-- a table of all the user groups with the columns: id, name, version
+name (there will be a file with a corresponding name on the server),
+manage users (add or remove), manage passages (add or remove passage groups).
+-- there will be an option to add a project (no users or passage
+groups at first) and to delete a group.
+
+/tasks:
+
+/annotate:
+-- add a separate table for each of the projects.
+
+/text:
+
+/passages:
+-- disfunctional.
+
+modifications:
+-- users are not assigned to projects. an admin can assign any user to
+any passage in any project.
+-- when defining a task, you must specify the project, and a list of
+(UID, PID). the server must verify that
+the PID is of a passage-group which is allowed for the specified
+project. otherwise, returns error.
+
+
+
+Done:
+=====
+
+/projects:
+-- added an option from the main menu
+-- a new project requires specifying its name, version and config file
+(html select). the server must check: (a) that the config files exists
+on server, (b) if the same version was previously used, it must be
+with the same config file and vice versa.
+-- note: we need a directory in py/huca/ called configs/
+
+/text:
+-- before loading a passage, load the config file.
+-- in the xml, save the project's name and the config name as well (I
+know it's redundant).
+-- when you send to save, submit, unfit, you should send the project's
+name as well.
+
+
+/tasks:
+-- requires only testing.
+
+/passages:
+-- in "annotations", separate them according to projects. (NOTE: Sure we need separate tables? or a column for project name is enough)
+
+/sam:
+-- there will be a scroll menu for choosing which project you would
+like to operate sam in.
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head profile="http://www.w3.org/2005/10/profile">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="annotStyle.css" />
+<link rel="icon" type="image/png" href="gif/UCCA.png" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/text.js"></script>
+<script type="text/javascript" src="js/classes.js"></script>
+<script type="text/javascript" src="js/dialogs.js"></script>
+<script type="text/javascript" src="js/head.js"></script>
+<script type="text/javascript" src="js/utils.js"></script>
+<script type="text/javascript" src="js/clause.js"></script>
+<script type="text/javascript" src="js/lru.js"></script>
+<script type="text/javascript" src="js/linkage.js"></script>
+<script type="text/javascript" src="js/xml.js"></script>
+<script type="text/javascript" src="js/reference.js"></script>
+<script type="text/javascript" src="js/textParser.js"></script>
+<script type="text/javascript" src="js/server.js"></script>
+<script type="text/javascript" src="js/submit.js"></script>
+<script type="text/javascript" src="js/comments.js"></script>
+
+
+<style type="text/css">
+* {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+
+textarea {
+	-webkit-user-select: auto;
+}
+</style>
+
+<title>UCCA</title>
+</head>
+<body style="margin: 0px;" onkeydown="return keyPress(event);"
+	onmouseup="mouseup(-1)">
+	<div id="darken"></div>
+	<div id='dialog' style="overflow: auto;"></div>
+	<div id="bodyDiv">
+<!--		<div id="animationDiv"
+			style="position: absolute; z-index: 200; left: 50%; top: 50%; border: 1px solid black; display: none;"
+			onclick="toggleAnimation()">
+			<img src="gif/star_jumping.gif" style="height: 50px;">
+		</div>-->
+		<div style="bottom: 3px; position: fixed; width: 80%; left: 5px; right: 1%; top: 0px; overflow-y: scroll; overflow-x: hidden; max-height: 100%; z-index: 1;" id="scroller">
+			<div style="display: block; height: 30px; position: absolute; right: 0px;">
+				<div id='topButtons'
+					style="padding-top: 5px; padding-right: 5px; z-index: 200; position: relative; height: 40px; ">
+					<a id="username"></a> <a id="save_button"><img
+						src="gif/S_button.gif" onclick="save()" class="top-button">
+					</a> <a id="submit_button"><img src="gif/submit_button.gif"
+						onclick="checkAndSubmit()" class="top-button">
+					</a> <a id="unfit_button"><img src="gif/unfit_button.gif"
+						onclick="reportUnfit();" class="top-button">
+					</a> <a id="comments_button"><img src="gif/R_button.gif"
+						onclick="openRemarksDialog()" class="top-button">
+					</a> <a id="reset_button"><img src="gif/X_button.gif"
+						onclick="openDialog(2, 'Are you sure you want to reset?', loadPassage, [passageID,true]);"
+						class="top-button">
+					</a> <a id="help_button"><img src="gif/help_button.gif"
+						onclick="openDialog(1);" class="top-button">
+					</a> <a id="settings_button"><img class="top-button"
+						onclick="openDialog(8);" src="gif/settings_button.gif">
+					</a> <a id="home_button" href="/"><img src="gif/home_button.gif"
+						href="/" class="top-button">
+					</a>
+				</div>
+                                <div id="LRUruler" class="lruPosition" style="background: #EEE; height: 0.4em;" align="center" onclick="openLRUtable();">
+                                  <img id="expandImg" style="position: relative; top: -0.2em" src="gif/expandArrow.gif"></img>
+                                  <img id="collapseImg" style="display: none; position: relative; top: -0.25em" src="gif/collapseArrow.gif"></img>
+                                </div>
+                                <div id="unitsLRUDiv" class="lruPosition" style="height: 25em; background: #EEE" align="left">
+		                  <table id="unitsLruUL">
+		                  </table>
+		                </div>
+			</div>
+			<div>
+				<div>
+					<img src="gif/logo5.gif"
+						style="position: relative; margin-bottom: -25px; margin-top: 20px; z-index: 100">
+					<div style="margin-left: -0.5em; display: inline; font-family: type_writer_style; font-size: 32px; bottom: 2px; position: relative;">UCCA</div>
+                                        <div style="margin-left: 0.5em; display: inline; font-family: type_writer_style; font-size: 17px; bottom: 2px; position: relative;">Universal
+						Conceptual Cognitive Annotation <a style="font-family: Times New Roman; font-size: 10px; bottom: 5px;">&copy</a></div>
+				</div>
+			</div>
+			<div valign="top" width="70%" style="height: 90%">
+			      <div id='textDiv' style='position: relative;'>
+                                <!--
+			        <textarea id="textInput"
+				          style="height: 10em; width: 95%; postion: relative;"></textarea>
+			        <a class="button"
+			           style="width: 3em; display: block; background: #eeeeee;"
+			           onclick="submitDemoText();">submit</a><br> <input
+						                                 id="xmlCheck" type="checkbox"> <a>XML input</a>-->
+			      </div>
+			      <div id='err' style="display: none;"></div>
+			</div>
+		        </div>
+                <div id='LogDiv'
+		     style="border: solid 1px; font-family: type_writer_style; font-size: small; position: relative; margin: 0.1cm; height: 2.5em; display: none;" class="shadow1">
+		  <div id="LogDivMsg"
+		       style="color: #900; padding: 0.2em; margin-right: auto; margin-left: auto; text-align: center;"></div>
+		</div>
+		</div>
+		<div id="buttons" style="position: fixed; width: 20%; top: 0px; right: 0px; padding-left: 10px; height: 100%; overflow: auto;">
+			<div class='buttonField' id='markingButtons'
+				style="position: relative; display: block; margin-bottom: 2em;"></div>
+            <div class='buttonField' id='otherButtons'
+				style="position: relative; display: block; padding-right: 2%;">
+
+			</div>
+		</div>
+	</div>
+	<div id="forXML"
+		style="display: none; margin-right: auto; margin-left: auto; vertical-align: middle; z-index: -1"></div>
+</body>
+</html>
