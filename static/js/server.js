@@ -98,7 +98,7 @@ function loadPassage(id, reset) {
 		lruQueue = [];
 	}
 	$.ajax({
-		url: "/loadById",
+		url: "/loadPassageById",
 		data : "id=" + id + "&reset=" + reset,
 		type: "POST",
 		success: function(a){

@@ -1173,62 +1173,76 @@ def submitReview():
     con.commit()
     return {'redirect':'/annotate', 'msg': 'Submitted.' }
 
-@route('/loadById', method='POST')
-def loadById():
+@route('/loadPassageById', method='POST')
+def loadPassageById():
     #request.content_type = 'text/html; charset=latin9'
     s = request.environ.get('beaker.session')
     if not logged(s):
         return {'redirect': 'home'}
-    uid = s['userId']
-    
-    reviewOf = -1
-    rtid = -1
+
     if 'rtid' in s:
-        try:        
-            cur.execute("SELECT xid FROM reviewTasks WHERE id=%s", (s['rtid'],))
-            result = cur.fetchone()
-            reviewOf = result[0]
-            rtid = s['rtid']
-            del s['rtid']
-        except Exception, e:
-            print("An error occurred:", e.args[0])
-            print(1)
-            return
-    try:
-        cur.execute("SELECT username, settings FROM users WHERE id=%s", (uid,))
-        result = cur.fetchone()
-        curUsername = result[0]
-        settings = result[1]
-        res = {'username': curUsername, 'settings': settings}
-    except Exception, e:
-        print("An error occurred:", e.args[0])
-        print(2)
-        return
-    fetchXML = True
-    if request.forms.get('reset') == 'true':
-        fetchXML = False
+        reviewOf, rtid = getReviewInfo(s)
+    else:
+        reviewOf, rtid = -1, -1
+
+    passageInfo, uid = getUsernameAndSettings(s)
+
+    fetchXML = (request.forms.get('reset') == 'true')
+
     xid = reviewOf if not 'xid' in s else s['xid']
-    resXml = None
+    comment, passageid, projectid, resXml = getTaskOrPassageFromXMLTable(fetchXML, passageInfo, rtid, s, uid,
+                                                                      xid)
+    passageInfo.update(id = passageid, project = projectid)
+
+    getConfig(passageInfo, projectid)
+    if not resXml:
+        getPassageFromPassagesTable(passageInfo, passageid)
+    else:
+        passageInfo.update(comment = comment, xml = resXml)
+    passageInfo.update(rtid = rtid)
+    return passageInfo
+
+
+def getPassageFromPassagesTable(passageInfo, passageid):
+    cur.execute("SELECT passage, status FROM passages WHERE id=%s", (passageid,))
+    result = cur.fetchone()
+    passageInfo.update(passage=result[0])
+    print(result[0])
+    isSimpleParse = (result[1] == 1)
+    passageInfo.update(simpleParse=isSimpleParse)
+    passageInfo.update(mode="review" if result[1] == -1 else "basic")
+    # res.update(format_val = result[2])
+
+
+def getConfig(passageInfo, projectid):
+    cur.execute("SELECT configFile, version "
+                "FROM projects WHERE id=%s", (projectid,))
+    result = cur.fetchone()
+    config = result[0]
+    scheme_f = open('configs/' + config)
+    passageInfo.update(scheme=scheme_f.read())
+    version = result[1]
+    passageInfo.update(schemeVersion=version)
+    scheme_f.close()
+
+
+def getTaskOrPassageFromXMLTable(fetchXML, passageInfo, rtid, s, uid, xid):
     comm = ''
-    if xid != None and xid != -1:
-        try:
-            if reviewOf > 0:
-                print(3.2,rtid)
-                cur.execute("SELECT x.paid AS xpaid, x.xml AS xxml, x.comment AS xcomment, x.prid AS xprid, x.ts AS xts FROM xmls x, xmls x2, reviewTasks rt WHERE rt.xid=x2.id AND rt.id=%s AND x.reviewOf=x2.id AND x.uid=rt.uid ORDER BY xts DESC",(rtid,))
-                print(3.3,rtid)
+    resXml = None
+    if xid is not None and xid != -1:
+        if rtid == -1:
+            cur.execute("SELECT paid, xml, comment, prid FROM xmls WHERE id=%s ORDER BY ts DESC", (xid,))
+            result = cur.fetchone()
+        else:
+            cur.execute("SELECT x.paid AS xpaid, x.xml AS xxml, x.comment AS xcomment, x.prid AS xprid, x.ts AS xts "
+                        "FROM xmls x, xmls x2, reviewTasks rt "
+                        "WHERE rt.xid=x2.id AND rt.id=%s AND x.reviewOf=x2.id AND x.uid=rt.uid "
+                        "ORDER BY xts DESC", (rtid,))
+            result = cur.fetchone()
+            if not result:
+                cur.execute("SELECT paid, xml, comment, prid FROM xmls WHERE id=%s ORDER BY ts DESC", (xid,))
                 result = cur.fetchone()
-                if result==None or len(result)==0:
-                    cur.execute("SELECT paid, xml, comment, prid FROM xmls WHERE id=%s ORDER BY ts DESC",(xid,))
-                    result = cur.fetchone()
-            else:
-                print(3.1,xid)
-                cur.execute("SELECT paid, xml, comment, prid FROM xmls WHERE id=%s ORDER BY ts DESC",(xid,))
-                result = cur.fetchone()
-        except Exception, e:
-            print("An error occurred:", e.args[0])
-            print(3)
-            return
-        passageid=result[0]
+        passageid = result[0]
         resXml = result[1]
         comm = result[2]
         projectid = result[3]
@@ -1238,56 +1252,41 @@ def loadById():
         passageid = s['pid']
         projectid = s['prid']
         if fetchXML:
-            try:
-                cur.execute("SELECT xml, comment, ts FROM xmls WHERE paid=%s AND uid=%s AND prid = %s ORDER BY ts DESC",(passageid,uid,projectid))
-                result = cur.fetchone()
-                ts = None
-                if result != None:
-                    resXml = result[0]
-                    comm = result[1]
-                    ts = result[2]
-                cur.execute("SELECT xml, comment, ts FROM autosave WHERE paid=%s AND uid=%s ORDER BY ts DESC",(passageid,uid))
-                result = cur.fetchone()
-                if result != None and (ts == None or ts < result[2]):
-                    res.update(autosaveXml = result[0])
-                    res.update(autosaveComm = result[1])
-            except Exception, e:
-                print(e.pgerror)
-                print(4)
-                return {'error': e.pgerror}
-    res.update(id = passageid, project = projectid)
-    try:
-        cur.execute("SELECT configFile, version FROM projects WHERE id=%s", (projectid,))
-    except Exception, e:
-        print(e.pgerror)
-        print(5)
-        return {'error': e.pgerror}
+            cur.execute("SELECT xml, comment, ts FROM xmls WHERE paid=%s AND uid=%s AND prid = %s ORDER BY ts DESC",
+                        (passageid, uid, projectid))
+            result = cur.fetchone()
+            ts = None
+            if result != None:
+                resXml = result[0]
+                comm = result[1]
+                ts = result[2]
+            cur.execute("SELECT xml, comment, ts FROM autosave WHERE paid=%s AND uid=%s ORDER BY ts DESC",
+                        (passageid, uid))
+            result = cur.fetchone()
+            if result != None and (ts == None or ts < result[2]):
+                passageInfo.update(autosaveXml=result[0])
+                passageInfo.update(autosaveComm=result[1])
+    return comm, passageid, projectid, resXml
+
+
+def getReviewInfo(s):
+    cur.execute("SELECT xid FROM reviewTasks WHERE id=%s", (s['rtid'],))
     result = cur.fetchone()
-    config = result[0]
-    scheme_f = open('configs/' + config)
-    res.update(scheme = scheme_f.read())
-    version = result[1]
-    res.update(schemeVersion = version)
-    scheme_f.close()
-    if resXml==None:
-        try:
-            cur.execute("SELECT passage, status FROM passages WHERE id=%s",(passageid,))
-        except Exception, e:
-            print(e.pgerror)
-            print(6)
-            return {'error': e.pgerror}
-        result = cur.fetchone()
-        res.update(passage = result[0])
-        print(result[0])
-        
-        isSimpleParse = (result[1] == 1)
-        res.update(simpleParse = isSimpleParse)
-        res.update(mode="review" if result[1]==-1 else "basic")
-        #res.update(format_val = result[2])
-    else:
-        res.update(comment = comm, xml = resXml)
-    res.update(rtid = rtid)
-    return res
+    reviewOf = result[0]
+    rtid = s['rtid']
+    del s['rtid']
+    return reviewOf, rtid
+
+
+def getUsernameAndSettings(s):
+    uid = s['userId']
+    cur.execute("SELECT username, settings FROM users WHERE id=%s", (uid,))
+    result = cur.fetchone()
+    curUsername = result[0]
+    settings = result[1]
+    res = {'username': curUsername, 'settings': settings}
+    return res, uid
+
 
 @route('/reportUnfit', method='POST')
 def reportUnfit():
@@ -1319,25 +1318,21 @@ def openUserTask():
         return {'redirect': 'home'}
     pid = request.forms.get('pid')
     prid = request.forms.get('prid')
-    try:
-        cur.execute("SELECT status, rid FROM passages WHERE id=%s", (pid,))
-        result = cur.fetchone()
-        if (result[0] > 0 or (result[0] == -1 and result[1] == s['userId'])):
-            if (result[0] == 2):
-                try:
-                    cur.execute("UPDATE passages SET status=-1, rid=%s WHERE id=%s", (s['userId'],pid))
-                except Exception, e:
-                    print(e.pgerror)
-                    return {'error': e.pgerror}
-                con.commit()     
-            s['pid'] = pid
-            s['prid'] = prid
-            return {'redirect': '/text'}
-        else:
-            return {'message': 'Passage not available'} 
-    except Exception, e:
-        print(e)
-        return {'message': 'Problem in DB'}
+    cur.execute("SELECT status, rid FROM passages WHERE id=%s", (pid,))
+    result = cur.fetchone()
+    if (result[0] > 0 or (result[0] == -1 and result[1] == s['userId'])):
+        if (result[0] == 2):
+            try:
+                cur.execute("UPDATE passages SET status=-1, rid=%s WHERE id=%s", (s['userId'],pid))
+            except Exception, e:
+                print(e.pgerror)
+                return {'error': e.pgerror}
+            con.commit()
+        s['pid'] = pid
+        s['prid'] = prid
+        return {'redirect': '/text'}
+    else:
+        return {'message': 'Passage not available'}
     
 @route('/openUserReviewTask', method='POST')
 def openUserReviewTask():

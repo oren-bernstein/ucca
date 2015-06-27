@@ -1162,7 +1162,7 @@ def submitReview():
     con.commit()
     return {'redirect':'/annotate', 'msg': 'Submitted.' }
 
-@route('/loadById', method='POST')
+@route('/loadPassageById', method='POST')
 def loadById():
     #request.content_type = 'text/html; charset=latin9'
     s = request.environ.get('beaker.session')
