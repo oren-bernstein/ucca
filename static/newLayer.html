@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" media="screen"
+	href="css/ui.jqgrid.css" />
+<link rel="stylesheet" type="text/css" media="screen"
+	href="css/ui-lightness/jquery-ui-1.8.18.custom.css" />
+<link rel="icon" type="image/png" href="gif/UCCA.png">
+<link rel="stylesheet" type="text/css" href="annotStyle.css" />
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="js/i18n/grid.locale-en.js"></script>
+<script type="text/javascript" src="js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="js/newLayer.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
+<title>UCCA</title>
+</head>
+<body style="font-size: small">
+	<div id="darken"></div>
+        <div id="err" style="display: none"></div>
+	<div>
+		<div id="dialog"
+		     style="height: 80%; top: 10%; width: 80%; left: 10%; z-index: 400">
+                  <p style='position: absolute; bottom: 2px; right: 5px;'>
+		    <a class='button' href="javascript:closeDialog();" style="color: black; text-align: right;">close</a>
+                  </p>
+			<table id="categoryList">
+				<tr>
+					<td />
+				</tr>
+			</table>
+		</div>
+
+		<table border="0" width="100%">
+			<tr>
+				<td>
+                                  <div>
+	                            <img src="gif/logo5.gif"
+	                                 style="position: relative; margin-bottom: 0px; margin-top: 20px; z-index: 100">
+	                            <div style="margin-left: -0.5em; display: inline; font-family: type_writer_style; font-size: 32px; bottom: 27px; position: relative;">UCCA</div>
+                                    <div style="margin-left: 0.5em; display: inline; font-family: type_writer_style; font-size: 17px; bottom: 27px; position: relative;">Universal
+	                              Conceptual Cognitive Annotation <a style="font-family: Times New Roman; font-size: 10px;">&copy</a></div>
+                                  </div>
+				  <a style="top: 10px; height: 40px; right: 10px; position: absolute;" href="/">
+                                    <img src="gif/home_button.gif" class="top-button">
+				  </a>
+				</td>
+
+			</tr>
+			<tr>
+				<td>
+					<table id="list">
+						<tr>
+							<td />
+						</tr>
+					</table>
+					<div id="pager"></div></td>
+			</tr>
+			<tr>
+				<td>
+					<div>
+						<a onclick="newLayer(false);" href="#"
+							class="ui-state-default ui-corner-all"><span
+							style="float: left;" class="ui-icon ui-icon-newwin"></span>Add new layer</a>
+					</div>
+                    <div>
+						<a onclick="newLayer(true);" href="#"
+							class="ui-state-default ui-corner-all"><span
+							style="float: left;" class="ui-icon ui-icon-newwin"></span>Clone selected</a>
+					</div>
+                    <div>
+						<a onclick="newLayer(true);" href="#"
+							class="ui-state-default ui-corner-all"><span
+							style="float: left;" class="ui-icon ui-icon-newwin"></span>Merge selected</a>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="ui-widget" style="display: none" id="error">
+						<div class="ui-state-error ui-corner-all" style="padding: 0.7em;">
+							<p>
+								<span class="ui-icon ui-icon-alert"
+									style="float: left; margin-right: .3em;"></span> <strong>Error:</strong>
+								<span id="errormsg"></span>
+							</p>
+						</div>
+					</div></td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<a onclick="hideSelected();" href="#"
+			class="ui-state-default ui-corner-all"><span style="float: left;"
+			class="ui-icon ui-icon-newwin"></span>Delete selected</a>
+	</div>
+</body>
+</html>

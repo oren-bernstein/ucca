@@ -1175,26 +1175,21 @@ def submitReview():
 
 @route('/loadPassageById', method='POST')
 def loadPassageById():
-    #request.content_type = 'text/html; charset=latin9'
-    s = request.environ.get('beaker.session')
-    if not logged(s):
+    session = request.environ.get('beaker.session')
+    if not logged(session):
         return {'redirect': 'home'}
 
-    if 'rtid' in s:
-        reviewOf, rtid = getReviewInfo(s)
-    else:
-        reviewOf, rtid = -1, -1
-
-    passageInfo, uid = getUsernameAndSettings(s)
+    reviewOf, rtid = getReviewInfo(session)
+    passageInfo, uid = getUsernameAndSettings(session)
 
     fetchXML = (request.forms.get('reset') == 'true')
-
-    xid = reviewOf if not 'xid' in s else s['xid']
-    comment, passageid, projectid, resXml = getTaskOrPassageFromXMLTable(fetchXML, passageInfo, rtid, s, uid,
+    xid = reviewOf if not 'xid' in session else session['xid']
+    comment, passageid, projectid, resXml = getPassageFromDb(fetchXML, passageInfo, rtid, session, uid,
                                                                       xid)
     passageInfo.update(id = passageid, project = projectid)
 
     getConfig(passageInfo, projectid)
+    
     if not resXml:
         getPassageFromPassagesTable(passageInfo, passageid)
     else:
@@ -1211,7 +1206,6 @@ def getPassageFromPassagesTable(passageInfo, passageid):
     isSimpleParse = (result[1] == 1)
     passageInfo.update(simpleParse=isSimpleParse)
     passageInfo.update(mode="review" if result[1] == -1 else "basic")
-    # res.update(format_val = result[2])
 
 
 def getConfig(passageInfo, projectid):
@@ -1225,56 +1219,68 @@ def getConfig(passageInfo, projectid):
     passageInfo.update(schemeVersion=version)
     scheme_f.close()
 
+#def createLayer()
 
-def getTaskOrPassageFromXMLTable(fetchXML, passageInfo, rtid, s, uid, xid):
-    comm = ''
-    resXml = None
+
+def getPassageFromDb(fetchXML, passageInfo, rtid, s, uid, xid):
     if xid is not None and xid != -1:
-        if rtid == -1:
+        return getExistingPassageXML(rtid, s, xid)
+    return getXMLByPassageId(fetchXML, passageInfo, s, uid)
+
+
+def getXMLByPassageId(fetchXML, passageInfo, s, uid):
+    comment = ''
+    resXml = None
+    passageid = s['pid']
+    projectid = s['prid']
+    if fetchXML:
+        cur.execute("SELECT xml, comment, ts FROM xmls WHERE paid=%s AND uid=%s AND prid = %s ORDER BY ts DESC",
+                    (passageid, uid, projectid))
+        result = cur.fetchone()
+        ts = None
+        if result != None:
+            resXml = result[0]
+            comment = result[1]
+            ts = result[2]
+        cur.execute("SELECT xml, comment, ts FROM autosave WHERE paid=%s AND uid=%s ORDER BY ts DESC",
+                    (passageid, uid))
+        result = cur.fetchone()
+        if result != None and (ts == None or ts < result[2]):
+            passageInfo.update(autosaveXml=result[0])
+            passageInfo.update(autosaveComm=result[1])
+    return comment, passageid, projectid, resXml
+
+
+def getExistingPassageXML(rtid, s, xid):
+    if rtid == -1:
+        cur.execute("SELECT paid, xml, comment, prid FROM xmls WHERE id=%s ORDER BY ts DESC", (xid,))
+        result = cur.fetchone()
+    else:
+        cur.execute("SELECT x.paid AS xpaid, x.xml AS xxml, x.comment AS xcomment, x.prid AS xprid, x.ts AS xts "
+                    "FROM xmls x, xmls x2, reviewTasks rt "
+                    "WHERE rt.xid=x2.id AND rt.id=%s AND x.reviewOf=x2.id AND x.uid=rt.uid "
+                    "ORDER BY xts DESC", (rtid,))
+        result = cur.fetchone()
+        if not result:
             cur.execute("SELECT paid, xml, comment, prid FROM xmls WHERE id=%s ORDER BY ts DESC", (xid,))
             result = cur.fetchone()
-        else:
-            cur.execute("SELECT x.paid AS xpaid, x.xml AS xxml, x.comment AS xcomment, x.prid AS xprid, x.ts AS xts "
-                        "FROM xmls x, xmls x2, reviewTasks rt "
-                        "WHERE rt.xid=x2.id AND rt.id=%s AND x.reviewOf=x2.id AND x.uid=rt.uid "
-                        "ORDER BY xts DESC", (rtid,))
-            result = cur.fetchone()
-            if not result:
-                cur.execute("SELECT paid, xml, comment, prid FROM xmls WHERE id=%s ORDER BY ts DESC", (xid,))
-                result = cur.fetchone()
-        passageid = result[0]
-        resXml = result[1]
-        comm = result[2]
-        projectid = result[3]
-        if 'xid' in s:
-            del s['xid']
-    else:
-        passageid = s['pid']
-        projectid = s['prid']
-        if fetchXML:
-            cur.execute("SELECT xml, comment, ts FROM xmls WHERE paid=%s AND uid=%s AND prid = %s ORDER BY ts DESC",
-                        (passageid, uid, projectid))
-            result = cur.fetchone()
-            ts = None
-            if result != None:
-                resXml = result[0]
-                comm = result[1]
-                ts = result[2]
-            cur.execute("SELECT xml, comment, ts FROM autosave WHERE paid=%s AND uid=%s ORDER BY ts DESC",
-                        (passageid, uid))
-            result = cur.fetchone()
-            if result != None and (ts == None or ts < result[2]):
-                passageInfo.update(autosaveXml=result[0])
-                passageInfo.update(autosaveComm=result[1])
+    passageid = result[0]
+    resXml = result[1]
+    comm = result[2]
+    projectid = result[3]
+    if 'xid' in s:
+        del s['xid']
     return comm, passageid, projectid, resXml
 
 
-def getReviewInfo(s):
-    cur.execute("SELECT xid FROM reviewTasks WHERE id=%s", (s['rtid'],))
+def getReviewInfo(session):
+    if not 'rtid' in session:
+        return -1, -1
+    cur.execute("SELECT xid FROM reviewTasks WHERE id=%s", (session['rtid'],))
     result = cur.fetchone()
     reviewOf = result[0]
-    rtid = s['rtid']
-    del s['rtid']
+    rtid = session['rtid']
+    del session['rtid']
     return reviewOf, rtid
 
 
@@ -1429,6 +1435,52 @@ def readDoc(docFile, docId):
             output = output + line
     f.close()
     return output
+
+
+@route('/getLayers', method='POST')
+def layers():
+
+    s = request.environ.get('beaker.session')
+    if not admin(s):
+        return {'redirect': 'home'}
+    try:
+        cur.execute("select c.id, c.name, string_agg(p.name, ' + ') as parents, c.source, c.version "
+                    "from layers p, layers c, layer_parents link "
+                    "where p.id = link.parent_lid and c.id = link.child_lid  and c.displayed = 1"
+                    "group by c.id, c.name, c.source, c.version "
+                    "order by c.id")
+    except Exception, e:
+        print(e.pgerror)
+        return {'error': e.pgerror}
+    result = cur.fetchall()
+    try:
+        return json.dumps([dict(lid=x[0], name=x[1], parents=x[2], source=x[3], \
+                                version=x[4]) for x in result], \
+                          ensure_ascii=False)
+    except Exception as e:
+        print("An error occurred:", e.args[0])
+
+@route('/hideLayers', method='POST')
+def hideLayers():
+    s = request.environ.get('beaker.session')
+    if not admin(s):
+        return {'redirect': 'home'}
+    arr = json.loads('[' + request.forms.get('layers') + ']')
+    for i in arr:
+        try:
+            cur.execute("UPDATE layers SET displayed=0 WHERE id=%s", (i,))
+        except Exception, e:
+            print(e.pgerror)
+            return {'error': e.pgerror}
+    con.commit()
+    return
+
+
+
+
+
+
+
 
 session_opts = {
     'session.type': 'file',
