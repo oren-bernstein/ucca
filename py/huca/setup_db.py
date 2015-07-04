@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import psycopg2
 
-con = psycopg2.connect(host="localhost", database="work",user="oren",password="Password1")
+con = psycopg2.connect(host="localhost", database="work",user="postgres",password="Password1")
 cur = con.cursor()
 cur.execute("SET search_path TO public")
 
@@ -26,6 +26,10 @@ cur.execute("CREATE TABLE unfit (id SERIAL PRIMARY KEY, uid INTEGER, paid INTEGE
 cur.execute("CREATE TABLE projects (id SERIAL PRIMARY KEY, name TEXT, version TEXT, configFile TEXT, displayed INTEGER)")
 cur.execute("CREATE TABLE projectPassages (id SERIAL PRIMARY KEY, prid INTEGER, paid INTEGER)")
 cur.execute("CREATE TABLE groups (id SERIAL PRIMARY KEY, name TEXT, status INTEGER)")
+cur.execute("CREATE TABLE layers (id SERIAL PRIMARY KEY, name TEXT, source TEXT, version TEXT, displayed INTEGER)")
+cur.execute("CREATE TABLE layer_parents (parent_lid INTEGER, child_lid INTEGER)")
+cur.execute("CREATE TABLE categories (id SERIAL PRIMARY KEY, name TEXT, description TEXT, family TEXT, lid INTEGER, displayed INTEGER)")
+cur.execute("CREATE TABLE category_parents (parent_cid INTEGER, child_cid INTEGER)")
 
 cur.execute("INSERT INTO projects (id, name, version, configFile, displayed) VALUES (-1, 'Guest', '1.0.4','config.1.0.4.xml',1)")
 cur.execute("INSERT INTO projects (name, version, configFile, displayed) VALUES ('default', '1.0','config.1.0.2.xml',1)")

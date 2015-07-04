@@ -13,20 +13,16 @@ var QueryString = function () {
     var pair = vars[i].split("=");
         // If first entry with this name
     if (typeof query_string[pair[0]] === "undefined") {
-      query_string[pair[0]] = pair[1];
-        // If second entry with this name
-    } else if (typeof query_string[pair[0]] === "string") {
-      var arr = [ query_string[pair[0]], pair[1] ];
-      query_string[pair[0]] = arr;
-        // If third or later entry with this name
-    } else {
+        query_string[pair[0]] = [pair[1]];
+     }
+     else {
       query_string[pair[0]].push(pair[1]);
     }
   }
     return query_string;
 } ();
     if(QueryString.layerId){
-        layerId = QueryString.layerId;
+        layerId = QueryString.layerId[0];
     }
     else {
         createNewLayer();
@@ -44,7 +40,7 @@ var QueryString = function () {
 		        	   pager: '#pager',
 		        	   viewrecords: true,
 		        	   multiselect: true,
-		        	   caption: "Layers",
+		        	   caption: "Your Layer",
 		        	   sortname: 'cid',
 		        	   height: 250,
 		        	   rowNum: 15,
@@ -52,6 +48,36 @@ var QueryString = function () {
 		        	   rowList: [15, 30, 60],
 	});
     fillGrid("list", layerId)
+
+
+    if(QueryString.parentId){
+        for(i = 0; i < QueryString.parentId.length ; i++){
+            var listName = "parent" + QueryString.parentId[i]+"list"
+            $("#parentLists").append('<table id="'+listName+'"><tr><td /></tr></table>')
+            $("#"+listName).jqGrid({
+		datatype: "local",
+		colNames: ['cid','name', 'description', 'parents','family'],
+		colModel: [
+		           {name:'cid',key:true,index:'lid',editable:false,width:30,sorttype:'int'},
+		           {name:'name',index:'name',editable:true,edittype:"text",width:300},
+		           {name:'description',index:'parents',editable:false,width:100},
+		           {name:'parents',index:'source',editable:true,edittype:"text",width:90},
+		           {name:'family',index:'version',editable:true,edittype:"text",width:80}
+		        	   ],
+		        	   pager: '#pager',
+		        	   viewrecords: true,
+		        	   multiselect: true,
+		        	   caption: "Parent Layer",
+		        	   sortname: 'cid',
+		        	   height: 250,
+		        	   rowNum: 15,
+		        	   autowidth: true,
+		        	   rowList: [15, 30, 60],
+	});
+            fillGrid(listName, QueryString.parentId[i])
+        }
+    }
+
 	$('#insert').dialog({
 		autoOpen: false,
 		width: 600,

@@ -102,7 +102,7 @@ function newLayer(fromExistingLayers) {
 	for (var i = 0; i < s.length; i++) {
 		var ret = $("#list").jqGrid('getCell',s[i],'lid');
 		ids.push(ret);
-		ids_encoded += "ids[]="+ret+"&"
+		ids_encoded += "parentId="+ret+"&"
 	}
 	window.location.href = '/newLayer?' + ids_encoded;
 }
