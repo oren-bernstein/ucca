@@ -1475,11 +1475,72 @@ def hideLayers():
     con.commit()
     return
 
+@route('/hideCategories', method='POST')
+def hideCategories():
+    s = request.environ.get('beaker.session')
+    if not admin(s):
+        return {'redirect': 'home'}
+    arr = json.loads('[' + request.forms.get('categories') + ']')
+    for i in arr:
+        try:
+            cur.execute("UPDATE categories SET displayed=0 WHERE cid=%s", (i,))
+        except Exception, e:
+            print(e.pgerror)
+            return {'error': e.pgerror}
+    con.commit()
+    return
 
+@route('/getCategories', method='POST')
+def categories():
 
+    s = request.environ.get('beaker.session')
+    if not admin(s):
+        return {'redirect': 'home'}
+    try:
+        lid = request.forms.get('layerId')
+        cur.execute("select cid, name, description, family "
+                    "from categories "
+                    "where lid = %s"
+                    "and displayed = 1"
+                    "order by cid" % lid)
+    except Exception, e:
+        print(e.pgerror)
+        return {'error': e.pgerror}
+    result = cur.fetchall()
+    try:
+        return json.dumps([dict(cid=x[0], name=x[1], description=x[2], family=x[3]) for x in result], \
+                          ensure_ascii=False)
+    except Exception as e:
+        print("An error occurred:", e.args[0])
 
+@route('/insertCategory', method='POST')
+def insertCategory():
+    s = request.environ.get('beaker.session')
+    if not admin(s) and not guest(s):
+        return {'redirect': 'home'}
+    newdata = (request.forms.get('name'),request.forms.get('description'),request.forms.get('family'),request.forms.get('lid'))
+    try:
+        cur.execute("INSERT INTO categories (name, description, family, displayed, lid) "
+                    "VALUES (%s, %s, %s, 1, %s) RETURNING cid", newdata)
+    except Exception, e:
+        print("An error ocurred:", e.args[0])
+        raise Exception("Insertion failed")
+    con.commit()
+    return
 
-
+@route('/createNewLayer', method='GET')
+def createNewLayer():
+    s = request.environ.get('beaker.session')
+    if not admin(s) and not guest(s):
+        return {'redirect': 'home'}
+    try:
+        cur.execute("insert into layers (name) values('') returning id")
+        result = cur.fetchone()
+        return str(result[0])
+    except Exception, e:
+        print("An error ocurred:", e.args[0])
+        raise Exception("Layer creation failed")
+    con.commit()
 
 
 session_opts = {

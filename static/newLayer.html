@@ -60,19 +60,9 @@
 			<tr>
 				<td>
 					<div>
-						<a onclick="newLayer(false);" href="#"
+						<a onclick="$('#insert').dialog('open');" href="#"
 							class="ui-state-default ui-corner-all"><span
-							style="float: left;" class="ui-icon ui-icon-newwin"></span>Add new layer</a>
-					</div>
-                    <div>
-						<a onclick="newLayer(true);" href="#"
-							class="ui-state-default ui-corner-all"><span
-							style="float: left;" class="ui-icon ui-icon-newwin"></span>Clone selected</a>
-					</div>
-                    <div>
-						<a onclick="newLayer(true);" href="#"
-							class="ui-state-default ui-corner-all"><span
-							style="float: left;" class="ui-icon ui-icon-newwin"></span>Merge selected</a>
+							style="float: left;" class="ui-icon ui-icon-newwin"></span>Add category</a>
 					</div>
 				</td>
 			</tr>
@@ -89,6 +79,16 @@
 					</div></td>
 			</tr>
 		</table>
+	</div>
+		<div id="insert" title="Add category">
+		<center>
+			Category name:
+			<textarea id="name"></textarea>
+			<p>Description: </p>
+			<textarea id="description" style="width: 90%; height: 20px;"></textarea>
+			<p>Family: </p>
+			<textarea id="family"></textarea>
+		</center>
 	</div>
 	<div>
 		<a onclick="hideSelected();" href="#"

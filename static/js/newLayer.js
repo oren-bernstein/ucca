@@ -1,6 +1,7 @@
 var lastsel = -1;
 var lastpid;
 var currPid = -1;
+var layerId = -1;
 $(document).ready(function(){
 var QueryString = function () {
   // This function is anonymous, is executed immediately and
@@ -24,6 +25,12 @@ var QueryString = function () {
   }
     return query_string;
 } ();
+    if(QueryString.layerId){
+        layerId = QueryString.layerId;
+    }
+    else {
+        createNewLayer();
+    }
 	$("#list").jqGrid({
 		datatype: "local",
 		colNames: ['cid','name', 'description', 'parents','family'],
@@ -44,13 +51,13 @@ var QueryString = function () {
 		        	   autowidth: true,
 		        	   rowList: [15, 30, 60],
 	});
-
+    fillGrid("list", layerId)
 	$('#insert').dialog({
 		autoOpen: false,
 		width: 600,
 		buttons: {
 			"Ok": function() {
-				insertPassage();
+				insertCategory();
 				$(this).dialog("close");
 			},
 			"Cancel": function() {
@@ -58,62 +65,13 @@ var QueryString = function () {
 			}
 		}
 	});
-	$('#upload').dialog({
-		autoOpen: false,
-		width: 600,
-		buttons: {
-			"Ok": function() {
-				$("#uploadForm").ajaxSubmit({
-					beforeSubmit: function () {
-						error("Submitting!");
-					},
-					success: function(res) {
-						if (res && res.msg) {
-							error(res.msg);
-						}
-						else {
-							error(null);
-						}
-						$("#list").clearGridData(false);
-						fillGrid();
-					},
-					target: '#errormsg',
-					dataType: 'json'
-				});
-				$(this).dialog("close");
-			},
-			"Cancel": function() {
-				$(this).dialog("close");
-			}
-		}
-	});
-	$("#uploadForm").ajaxForm();
-	$.ajax({
-		url : "/getGroups",
-		type: "POST",
-		success: function(a){
-			if (a.redirect) {
-				// data.redirect contains the string URL to redirect to
-				window.location.href = a.redirect;
-				return;
-			}
-			var arr=$.parseJSON(a);
-			for (var i=0; i<arr.length; i++) {
-				var option = document.createElement('option');
-				option.setAttribute('value', arr[i].gid);
-				option.appendChild(document.createTextNode(arr[i].name));
-				$(".groups").append(option);
-			}
-		},
-		error: function(data){
-			error("Failed");
-		}
-	});
+});
 
 function fillGrid(tableId, layerId){
 	$.ajax({
-		url : "/getCategories?layerId=%d" % layerId,
+		url : "/getCategories",
 		type: "POST",
+		data: "layerId=" + layerId,
 		success: function(a){
 			if (a.redirect) {
 				// data.redirect contains the string URL to redirect to
@@ -122,13 +80,7 @@ function fillGrid(tableId, layerId){
 			}
 			var arr=$.parseJSON(a);
 			for (var i=0; i<arr.length; i++) {
-                            try {
-			        arr[i].passage = decodeURIComponent(arr[i].passage);
-                            }
-                            catch(err) {
-                                $('#err').append(arr[i].pid+" ");
-                            }
-				$('#%d' % tableId).jqGrid('addRowData',arr[i].pid,arr[i]);
+				$('#' + tableId).jqGrid('addRowData',arr[i].cid,arr[i]);
 			}
 		},
 		error: function(data){
@@ -152,13 +104,13 @@ function hideSelected() {
 	}
 	var ids = new Array();
 	for (var i = 0; i < s.length; i++) {
-		var ret = $("#list").jqGrid('getCell',s[i],'pid');
+		var ret = $("#list").jqGrid('getCell',s[i],'cid');
 		ids.push(ret);
 	}
 	$.ajax({
-		url : "/hideLayers",
+		url : "/hideCategories",
 		type: "POST",
-		data: "passages=" + ids,
+		data: "categories=" + ids,
 		success: function(a){
 			if (a.redirect) {
 				// data.redirect contains the string URL to redirect to
@@ -166,7 +118,7 @@ function hideSelected() {
 				return;
 			}
 			$("#list").clearGridData(false);
-			fillGrid();
+			fillGrid("list",layerId);
 		},
 		error: function(data){
 			error("Deletion failed");
@@ -174,23 +126,44 @@ function hideSelected() {
 	});
 }
 
-function newLayer(fromExistingLayers) {
-    if(fromExistingLayers == false) {
-        window.location.href = '/newLayer';
-        return;
-    }
-	var s = $("#list").jqGrid('getGridParam','selarrrow');
-	if (!s.length) {
-		return;
-	}
-	var ids = new Array();
-	var ids_encoded = "";
-	for (var i = 0; i < s.length; i++) {
-		var ret = $("#list").jqGrid('getCell',s[i],'lid');
-		ids.push(ret);
-		ids_encoded += "ids[]="+ret+"&"
-	}
-	window.location.href = '/newLayer?' + ids_encoded;
+function createNewLayer() {
+    $.ajax({
+        async: false,
+        url: "/createNewLayer",
+        success: function(a) {
+            layerId = a;
+        },
+        error: function(data){
+			error("New layer creation failed");
+		}
+    });
+}
+
+function insertCategory() {
+	name=$('#name').val();
+	description=$('#description').val();
+	family=$('#family').val();
+	$('#name').val("");
+	$('#description').val("");
+	$('#family').val("");
+
+	$.ajax({
+		url : "/insertCategory",
+		type: "POST",
+		data: {name:  name, description: description, family: family, lid: layerId},
+		dataType: "text",
+		success: function(a){
+			if (a.redirect) {
+				window.location.href = a.redirect;
+				return;
+			}
+			$("#list").clearGridData(false);
+			fillGrid("list",layerId);
+		},
+		error: function(data){
+			error("Insertion failed");
+		}
+	});
 }
 
 function closeDialog() {
@@ -198,5 +171,3 @@ function closeDialog() {
 	$("#darken").fadeOut('fast',null);
 	$("#dialog").fadeOut('fast',null);
 }
-
-});

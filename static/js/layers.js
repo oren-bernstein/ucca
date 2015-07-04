@@ -23,71 +23,6 @@ $(document).ready(function(){
 		        	   rowList: [15, 30, 60],
 	});
 	fillGrid();
-	$('#insert').dialog({
-		autoOpen: false,
-		width: 600,
-		buttons: {
-			"Ok": function() {
-				insertPassage();
-				$(this).dialog("close");
-			},
-			"Cancel": function() {
-				$(this).dialog("close");
-			}
-		}
-	});
-	$('#upload').dialog({
-		autoOpen: false,
-		width: 600,
-		buttons: {
-			"Ok": function() {
-				$("#uploadForm").ajaxSubmit({
-					beforeSubmit: function () {
-						error("Submitting!");
-					},
-					success: function(res) {
-						if (res && res.msg) {
-							error(res.msg);
-						}
-						else {
-							error(null);
-						}
-						$("#list").clearGridData(false);
-						fillGrid();
-					},
-					target: '#errormsg',
-					dataType: 'json'
-				});
-				$(this).dialog("close");
-			},
-			"Cancel": function() {
-				$(this).dialog("close");
-			}
-		}
-	});
-	$("#uploadForm").ajaxForm();
-	$.ajax({
-		url : "/getGroups",
-		type: "POST",
-		success: function(a){
-			if (a.redirect) {
-				// data.redirect contains the string URL to redirect to
-				window.location.href = a.redirect;
-				return;
-			}
-			var arr=$.parseJSON(a);
-			for (var i=0; i<arr.length; i++) {
-				var option = document.createElement('option');
-				option.setAttribute('value', arr[i].gid);
-				option.appendChild(document.createTextNode(arr[i].name));
-				$(".groups").append(option);
-			}
-		},
-		error: function(data){
-			error("Failed");
-		}
-	});
-
 });
 function fillGrid(){
 	$.ajax({
@@ -171,10 +106,3 @@ function newLayer(fromExistingLayers) {
 	}
 	window.location.href = '/newLayer?' + ids_encoded;
 }
-
-function closeDialog() {
-	$('#list').jqGrid('GridUnload');
-	$("#darken").fadeOut('fast',null);
-	$("#dialog").fadeOut('fast',null);
-}
-
