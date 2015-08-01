@@ -130,14 +130,14 @@ function cloneFromList(listName){
 				window.location.href = a.redirect;
 				return;
 			}
-			$("#list").clearGridData(false);
-			fillGrid("list",layerId);
 		},
 		error: function(data){
 			error("Insertion failed");
 		}
-	});
+	    });
 	}
+	$("#list").clearGridData(false);
+	fillGrid("list",layerId);
 }
 
 function fillGrid(tableId, layerId){
