@@ -25,7 +25,11 @@ var QueryString = function () {
         layerId = QueryString.layerId[0];
     }
     else {
-        createNewLayer();
+        createNewLayer(QueryString.parentId);
+        window.location.href = window.location.href +
+        (window.location.href.includes('?') ? '&' : '?')
+        + 'layerId='+layerId;
+		return;
     }
 	$("#list").jqGrid({
 		datatype: "local",
@@ -53,7 +57,10 @@ var QueryString = function () {
     if(QueryString.parentId){
         for(i = 0; i < QueryString.parentId.length ; i++){
             var listName = "parent" + QueryString.parentId[i]+"list"
-            $("#parentLists").append('<table id="'+listName+'"><tr><td /></tr></table>')
+            $("#parentLists").append('<table id="'+listName+'"><tr><td /></tr></table>'+
+            '<div id="pager'+listName+'"></div>'+
+            '<div id="buttons'+listName+'"></div>'+
+            '<br />');
             $("#"+listName).jqGrid({
 		datatype: "local",
 		colNames: ['cid','name', 'description', 'parents','family'],
@@ -64,7 +71,7 @@ var QueryString = function () {
 		           {name:'parents',index:'source',editable:true,edittype:"text",width:90},
 		           {name:'family',index:'version',editable:true,edittype:"text",width:80}
 		        	   ],
-		        	   pager: '#pager',
+		        	   pager: '#pager'+listName,
 		        	   viewrecords: true,
 		        	   multiselect: true,
 		        	   caption: "Parent Layer",
@@ -74,8 +81,10 @@ var QueryString = function () {
 		        	   autowidth: true,
 		        	   rowList: [15, 30, 60],
 	});
-            fillGrid(listName, QueryString.parentId[i])
+            fillGrid(listName, QueryString.parentId[i]);
+            addParentLayerButtons(listName);
         }
+
     }
 
 	$('#insert').dialog({
@@ -92,6 +101,44 @@ var QueryString = function () {
 		}
 	});
 });
+
+function addParentLayerButtons(listName){
+    $("#buttons"+listName).append(
+    '<a onclick="cloneFromList(\''+listName+'\');" href="#" class="ui-state-default ui-corner-all">'
+    +'<span style="float: left;" class="ui-icon ui-icon-newwin"></span>Clone selected</a><br/>'
+    );
+}
+
+function cloneFromList(listName){
+    var s = $("#"+listName).jqGrid('getGridParam','selarrrow');
+	if (!s.length) {
+		return;
+	}
+	for (var i = 0; i < s.length; i++) {
+		var id = $("#"+listName).jqGrid('getCell',s[i],'cid');
+		var name = $("#"+listName).jqGrid('getCell',s[i],'name');
+		var description = $("#"+listName).jqGrid('getCell',s[i],'description');
+		var family = $("#"+listName).jqGrid('getCell',s[i],'family');
+
+	    $.ajax({
+		url : "/insertCategory",
+		type: "POST",
+		data: {name:  name, description: description, family: family, lid: layerId},
+		dataType: "text",
+		success: function(a){
+			if (a.redirect) {
+				window.location.href = a.redirect;
+				return;
+			}
+			$("#list").clearGridData(false);
+			fillGrid("list",layerId);
+		},
+		error: function(data){
+			error("Insertion failed");
+		}
+	});
+	}
+}
 
 function fillGrid(tableId, layerId){
 	$.ajax({
@@ -152,10 +199,16 @@ function hideSelected() {
 	});
 }
 
-function createNewLayer() {
+function createNewLayer(parentIds) {
+	if(typeof(parentIds) === 'undefined'){
+		parentIds = []
+	}
     $.ajax({
         async: false,
+        type: "POST",
         url: "/createNewLayer",
+        data: {parentIds: parentIds},
+		dataType: "text",
         success: function(a) {
             layerId = a;
         },
@@ -196,4 +249,30 @@ function closeDialog() {
 	$('#list').jqGrid('GridUnload');
 	$("#darken").fadeOut('fast',null);
 	$("#dialog").fadeOut('fast',null);
+}
+
+function clearDefaultName() {
+	if($("#layerName").val() == 'Name this layer...'){
+		$("#layerName").val("");
+	}
+}
+
+function renameLayer() {
+	name = $("#layerName").val();
+
+		$.ajax({
+		url : "/renameLayer",
+		type: "POST",
+		data: {name:  name, lid: layerId},
+		dataType: "text",
+		success: function(a){
+			if (a.redirect) {
+				window.location.href = a.redirect;
+				return;
+			}
+		},
+		error: function(data){
+			error("Layer naming failed");
+		}
+	});
 }

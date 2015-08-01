@@ -1519,28 +1519,56 @@ def insertCategory():
     if not admin(s) and not guest(s):
         return {'redirect': 'home'}
     newdata = (request.forms.get('name'),request.forms.get('description'),request.forms.get('family'),request.forms.get('lid'))
+    parents=[]
+    if 'parents' in request.forms:
+        parents = request.forms.get('parents').split(',')
     try:
         cur.execute("INSERT INTO categories (name, description, family, displayed, lid) "
                     "VALUES (%s, %s, %s, 1, %s) RETURNING cid", newdata)
+        cid = cur.fetchone()[0]
+        for parent in parents:
+            cur.execute('INSERT INTO category_parents (parent_cid, child_cid) VALUES (%s, %s)', (parent, cid))
     except Exception, e:
         print("An error ocurred:", e.args[0])
         raise Exception("Insertion failed")
     con.commit()
     return
 
-@route('/createNewLayer', method='GET')
+@route('/renameLayer', method='POST')
+def renameLayer():
+    s = request.environ.get('beaker.session')
+    if not admin(s) and not guest(s):
+        return {'redirect': 'home'}
+    newdata = (request.forms.get('name'),request.forms.get('lid'))
+    try:
+        cur.execute("UPDATE layers SET name=%s where id=%s", newdata)
+        cur.execute("UPDATE layers SET displayed=1 where id=%s and displayed=-1" % request.forms.get('lid'))
+    except Exception, e:
+        print("An error ocurred:", e.args[0])
+        raise Exception("Insertion failed")
+    con.commit()
+    return
+
+@route('/createNewLayer', method='POST')
 def createNewLayer():
     s = request.environ.get('beaker.session')
     if not admin(s) and not guest(s):
         return {'redirect': 'home'}
+    if 'parentIds[]' in request.forms:
+        parentIds=request.forms.dict['parentIds[]']
+    else:
+        parentIds=[1]
     try:
-        cur.execute("insert into layers (name) values('') returning id")
-        result = cur.fetchone()
-        return str(result[0])
+        cur.execute("insert into layers (name,source,version,displayed) values('','huji',1,-1) returning id")
+        new_id = cur.fetchone()[0]
+        for parentId in parentIds:
+            cur.execute("insert into layer_parents (parent_lid, child_lid) values(%s,%s)",(parentId, new_id))
+        con.commit()
+        return str(new_id)
     except Exception, e:
         print("An error ocurred:", e.args[0])
         raise Exception("Layer creation failed")
-    con.commit()
+
 
 
 session_opts = {
