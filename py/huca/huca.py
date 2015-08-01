@@ -161,8 +161,20 @@ def homeLinks():
         curUsername = result[0]
         
         if admin(s):
-            links = {'projects': 'Manage Projects', 'annotate': 'Annotate','users': 'Manage Users','tasks': 'Manage Tasks','passages': 'Manage Passages','comments': 'View comments','sam':'Single Annotator Mode','unfit': 'Manage Reports of Unfit Passages','logout': 'Logout', 'review': 'Review Annotations', 'reviewTasks': 'Manage Annotation Review Tasks'}
-            order = {'annotate': '-2', 'projects' : '1' ,'users': '2','tasks': '3','passages': '4','comments': '5','sam':'9','unfit': '5','logout': '-1', 'review': '-1.5', 'reviewTasks': '11'}
+            links = {'projects': 'Manage Projects',
+                     'annotate': 'Annotate',
+                     'users': 'Manage Users',
+                     'tasks': 'Manage Tasks',
+                     'passages': 'Manage Passages',
+                     'comments': 'View comments',
+                     'sam':'Single Annotator Mode',
+                     'unfit': 'Manage Reports of Unfit Passages',
+                     'logout': 'Logout',
+                     'review': 'Review Annotations',
+                     'reviewTasks': 'Manage Annotation Review Tasks',
+                     'layers': 'Manage Layers'}
+            order = {'annotate': '-2', 'projects' : '1' ,'users': '2','tasks': '3','passages': '4','comments': '5','sam':'9','unfit': '5','logout': '-1', 'review': '-1.5', 'reviewTasks': '11',
+                     'layers':'4.5'}
             status = 1
         elif guest(s):
             links = {'sam': 'Single Annotator Mode', 'reference1': 'Worked-out Example #1', 'reference2': 'Worked-out Example #2', 'reference3': 'Worked-out Example #3', 'reference4': 'Worked-out Example #4', 'annotate': 'Annotate', 'logout': 'Logout'}
