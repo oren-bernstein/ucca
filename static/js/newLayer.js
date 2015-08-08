@@ -38,7 +38,7 @@ var QueryString = function () {
 		           {name:'cid',key:true,index:'lid',editable:false,width:30,sorttype:'int'},
 		           {name:'name',index:'name',editable:true,edittype:"text",width:300},
 		           {name:'description',index:'parents',editable:false,width:100},
-		           {name:'parents',index:'source',editable:true,edittype:"text",width:90},
+		           {name:'parents',index:'source',editable:false,edittype:"text",width:90},
 		           {name:'family',index:'version',editable:true,edittype:"text",width:80}
 		        	   ],
 		        	   pager: '#pager',
@@ -46,10 +46,19 @@ var QueryString = function () {
 		        	   multiselect: true,
 		        	   caption: "Your Layer",
 		        	   sortname: 'cid',
+		        	   editurl: "/editCategory",
 		        	   height: 250,
 		        	   rowNum: 15,
 		        	   autowidth: true,
 		        	   rowList: [15, 30, 60],
+		        	   onSelectRow: function(id) {
+		        		   if (id && id != lastsel) {
+		        			   $("#list").jqGrid('saveRow',lastsel,null,"/editCategory",{'cid':lastpid});
+		        			   lastpid = $("#list").jqGrid('getRowData',id).pid;
+		        			   $("#list").jqGrid('editRow',id,true,null,null,"/editCategory",{'cid':lastpid});
+		        			   lastsel = id;
+		        		   }
+		        	   }
 	});
     fillGrid("list", layerId)
 
@@ -123,7 +132,7 @@ function cloneFromList(listName){
 	    $.ajax({
 		url : "/insertCategory",
 		type: "POST",
-		data: {name:  name, description: description, family: family, lid: layerId},
+		data: {name:  name, description: description, family: family, lid: layerId, parents: id},
 		dataType: "text",
 		success: function(a){
 			if (a.redirect) {

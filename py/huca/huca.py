@@ -1457,7 +1457,10 @@ def layers():
         return {'redirect': 'home'}
     try:
         cur.execute("select c.id, c.name, string_agg(p.name, ' + ') as parents, c.source, c.version "
-                    "from layers p, layers c, layer_parents link "
+                    "from layers c left outer join layer_parents link "
+                    "on (link.child_lid = c.id) "
+                    "left outer join layers p "
+                    "on (link.parent_lid = p.id) "
                     "where p.id = link.parent_lid and c.id = link.child_lid  and c.displayed = 1"
                     "group by c.id, c.name, c.source, c.version "
                     "order by c.id")
@@ -1510,17 +1513,22 @@ def categories():
         return {'redirect': 'home'}
     try:
         lid = request.forms.get('layerId')
-        cur.execute("select cid, name, description, family "
-                    "from categories "
-                    "where lid = %s"
-                    "and displayed = 1"
-                    "order by cid" % lid)
+        cur.execute("select c.cid, c.name, c.description, string_agg(p.name, ' + ') as parents, c.family "
+                    "from categories c "
+                    "left outer join category_parents link "
+                    "on (link.child_cid = c.cid) "
+                    "left outer join categories p "
+                    "on (link.parent_cid = p.cid) "
+                    "where c.lid = %s "
+                    "and c.displayed = 1 "
+                    "group by c.cid, c.name, c.description, c.family "
+                    "order by c.cid" % lid)
     except Exception, e:
         print(e.pgerror)
         return {'error': e.pgerror}
     result = cur.fetchall()
     try:
-        return json.dumps([dict(cid=x[0], name=x[1], description=x[2], family=x[3]) for x in result], \
+        return json.dumps([dict(cid=x[0], name=x[1], description=x[2], parents = x[3], family=x[4]) for x in result], \
                           ensure_ascii=False)
     except Exception as e:
         print("An error occurred:", e.args[0])
