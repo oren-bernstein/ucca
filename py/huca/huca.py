@@ -1554,6 +1554,22 @@ def insertCategory():
     con.commit()
     return
 
+@route('/editCategory', method='POST')
+def editCategory():
+    #request.content_type = 'text/html; charset=latin9'
+    s = request.environ.get('beaker.session')
+    if not admin(s):
+        return {'redirect': 'home'}
+    newdata = (request.forms.get('name'), request.forms.get('description'), \
+           request.forms.get('family'), request.forms.get('cid'))
+    try:
+        cur.execute("UPDATE categories SET name=%s, description=%s, family=%s WHERE id=%s", newdata)
+    except Exception, e:
+        print(e.pgerror)
+        return {'error': e.pgerror}
+    con.commit()
+    return
+
 @route('/renameLayer', method='POST')
 def renameLayer():
     s = request.environ.get('beaker.session')
