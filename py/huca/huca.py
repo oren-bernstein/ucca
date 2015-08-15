@@ -1605,6 +1605,19 @@ def createNewLayer():
         print("An error ocurred:", e.args[0])
         raise Exception("Layer creation failed")
 
+@route('/getLayerName', method='POST')
+def getLayerName():
+    s = request.environ.get('beaker.session')
+    if not admin(s):
+        return {'redirect': 'home'}
+    try:
+        cur.execute("SELECT name FROM layers WHERE id=%s" % request.forms.get('layerId'))
+    except Exception, e:
+        print(e.pgerror)
+        return {'error': e.pgerror}
+    result = cur.fetchone()
+    return result
+
 
 
 session_opts = {

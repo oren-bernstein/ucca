@@ -38,7 +38,7 @@ var QueryString = function () {
 		colModel: [
 		           {name:'cid',key:true,index:'lid',editable:false,width:30,sorttype:'int'},
 		           {name:'name',index:'name',editable:true,edittype:"text",width:300},
-		           {name:'description',index:'parents',editable:false,width:100},
+		           {name:'description',index:'parents',editable:true,width:100},
 		           {name:'parents',index:'source',editable:false,edittype:"text",width:90},
 		           {name:'family',index:'version',editable:true,edittype:"text",width:80}
 		        	   ],
