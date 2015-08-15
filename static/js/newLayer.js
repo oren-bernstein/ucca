@@ -23,6 +23,7 @@ var QueryString = function () {
 } ();
     if(QueryString.layerId){
         layerId = QueryString.layerId[0];
+        getLayerName();
     }
     else {
         createNewLayer(QueryString.parentId);
@@ -264,6 +265,21 @@ function clearDefaultName() {
 	if($("#layerName").val() == 'Name this layer...'){
 		$("#layerName").val("");
 	}
+}
+
+function getLayerName() {
+    $.ajax({
+		url : "/getLayerName",
+		type: "POST",
+		data: {layerId: layerId},
+		success: function(a){
+			if (a.redirect) {
+				window.location.href = a.redirect;
+				return;
+			}
+			$("#layerName").val(a);
+		},
+	});
 }
 
 function renameLayer() {

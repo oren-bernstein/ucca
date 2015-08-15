@@ -7,7 +7,9 @@ $(document).ready(function(){
 		colNames: ['lid','name', 'parents', 'source', 'version'],
 		colModel: [
 		           {name:'lid',key:true,index:'lid',editable:false,width:30,sorttype:'int'},
-		           {name:'name',index:'name',editable:true,edittype:"text",width:300},
+		           {name:'name',index:'name',editable:true,edittype:"text",width:300,
+		           formatter: 'showlink', formatoptions: { baseLinkUrl: '/newLayer', idName: "layerId"}
+		           },
 		           {name:'parents',index:'parents',editable:false,width:100},
 		           {name:'source',index:'source',editable:true,edittype:"text",width:90},
 		           {name:'version',index:'version',editable:true,edittype:"text",width:80}
